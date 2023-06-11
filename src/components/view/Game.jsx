@@ -9,19 +9,36 @@ function Game() {
 
   const params = useParams();
   const [game, setGame] = useState(null);
+  const [medias, setMedias] = useState(null);
   const utils = new Utils();
+  const [index, setIndex] = useState(1);
 
   useEffect(() => {
     if (params) {
-      axios.get(`http://localhost:1337/api/games/${params.id}`)
+      axios.get(`http://localhost:1337/api/games/${params.id}?populate=*`)
       .then(response => {
-        setGame(response.data.data)
+        setGame(response.data.data);
+        setMedias(response.data.data.attributes.game_medias)
       })
       .catch(error => {
         console.log(error);
       })
     }
   }, [])
+
+  function next() {
+    if (index < medias.data.length)
+      setIndex(index + 1);
+    else
+      setIndex(1);
+  }
+
+  function previous() {
+    if (index > 1)
+      setIndex(index - 1);
+    else
+      setIndex(medias.data.length);
+  }
 
   return (
     <div>
@@ -31,7 +48,35 @@ function Game() {
           <div className="pt-5 pr-44 pb-20 pl-44">
             <h3 className="text-3xl font-semibold">{ game.attributes.name }</h3>
             <div className="flex justify-between mt-5">
-              <img className="w-2/3 rounded-xl" src="https://image.api.playstation.com/vulcan/ap/rnd/202012/1522/MEtJOQHXbVy0ux0Emo9HInke.jpg" alt="far-cry-6" />
+              <div className="flex items-center w-2/3 pl-4">
+                <button onClick={previous} className="flex justify-center items-center relative 
+                                                bg-stone-900 bg-opacity-80
+                                                  -mr-14 w-10 h-10 rounded-full
+                                                  hover:bg-stone-800 hover:bg-opacity-80 duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
+                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/>
+                  </svg>
+                </button>
+                {
+                  medias.data.map(media => {
+                    return (
+                      <>
+                        <img className={media.id === index ? "rounded-xl" : "hidden" } src={media.attributes.media_url} alt={media.attributes.description}></img>
+                      </>
+                    );
+                  })
+                }
+                <button onClick={next} className="flex justify-center items-center relative 
+                                                bg-stone-900 bg-opacity-80
+                                                  -m-14 w-10 h-10 rounded-full
+                                                  hover:bg-stone-800 hover:bg-opacity-80 duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
+                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/>
+                  </svg>
+                </button>
+              </div>
               <div className="flex flex-col items-center">
                 <img className="w-40 h-60 mb-4 rounded-lg" src={ game.attributes.image_url } alt="far-cry-6" />
                 <div className="flex items-end mb-4">
