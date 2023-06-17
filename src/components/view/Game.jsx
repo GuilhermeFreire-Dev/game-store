@@ -4,41 +4,35 @@ import Navbar from "../layout/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Utils from "../../scripts/Utils";
+import Classification from "../layout/Game/Classification";
+import Media from "../layout/Game/Media";
+import Specs from "../layout/Game/Specs";
 
 function Game() {
 
   const params = useParams();
   const [game, setGame] = useState(null);
   const [medias, setMedias] = useState(null);
+  const [genres, setGenres] = useState(null);
+  const [minimumSpec, setMinimumSpec] = useState(null);
+  const [recommendedSpec, setRecommendedSpec] = useState(null);
   const utils = new Utils();
-  const [index, setIndex] = useState(1);
 
   useEffect(() => {
     if (params) {
       axios.get(`http://localhost:1337/api/games/${params.id}?populate=*`)
       .then(response => {
         setGame(response.data.data);
-        setMedias(response.data.data.attributes.game_medias)
+        setMedias(response.data.data.attributes.game_medias);
+        setGenres(response.data.data.attributes.game_genres);
+        setMinimumSpec(response.data.data.attributes.game_minimum_spec.data);
+        setRecommendedSpec(response.data.data.attributes.game_recommended_spec.data);
       })
       .catch(error => {
         console.log(error);
       })
     }
   }, [])
-
-  function next() {
-    if (index < medias.data.length)
-      setIndex(index + 1);
-    else
-      setIndex(1);
-  }
-
-  function previous() {
-    if (index > 1)
-      setIndex(index - 1);
-    else
-      setIndex(medias.data.length);
-  }
 
   return (
     <div>
@@ -48,35 +42,7 @@ function Game() {
           <div className="pt-5 pr-44 pb-20 pl-44">
             <h3 className="text-3xl font-semibold">{ game.attributes.name }</h3>
             <div className="flex justify-between mt-5">
-              <div className="flex items-center w-2/3 pl-4">
-                <button onClick={previous} className="flex justify-center items-center relative 
-                                                bg-stone-900 bg-opacity-80
-                                                  -mr-14 w-10 h-10 rounded-full
-                                                  hover:bg-stone-800 hover:bg-opacity-80 duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
-                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12l4.58-4.59z"/>
-                  </svg>
-                </button>
-                {
-                  medias.data.map(media => {
-                    return (
-                      <>
-                        <img className={media.id === index ? "rounded-xl" : "hidden" } src={media.attributes.media_url} alt={media.attributes.description}></img>
-                      </>
-                    );
-                  })
-                }
-                <button onClick={next} className="flex justify-center items-center relative 
-                                                bg-stone-900 bg-opacity-80
-                                                  -m-14 w-10 h-10 rounded-full
-                                                  hover:bg-stone-800 hover:bg-opacity-80 duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#fff">
-                    <path d="M0 0h24v24H0V0z" fill="none"/>
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/>
-                  </svg>
-                </button>
-              </div>
+              <Media medias={medias}></Media>
               <div className="flex flex-col items-center">
                 <img className="w-40 h-60 mb-4 rounded-lg" src={ game.attributes.image_url } alt="far-cry-6" />
                 <div className="flex items-end mb-4">
@@ -95,11 +61,15 @@ function Game() {
                   </span>
                 </div>
                 <div>
-                  <span className="bg-stone-700 rounded-md
+                  {
+                    game.attributes.edition && (
+                      <span className="bg-stone-700 rounded-md
                                   text-xs font-medium
                                   pt-0.5 pr-2 pb-0.5 pl-2">
-                    Standard Edition
-                  </span>
+                        Standard Edition
+                      </span>
+                    )
+                  }
                   <button className="bg-blue-600
                                       pt-2 pb-2 mb-2 mt-2 w-full
                                       rounded-lg
@@ -118,84 +88,54 @@ function Game() {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between mt-10">
+            <div className="flex justify-between mt-8">
               <div className="w-2/3">
+                <h5 className="font-semibold text-2xl mb-2">Sobre o jogo:</h5>
                 <p>{ game.attributes.description }</p>
                 <div className="flex items-center mt-10 mb-5">
-                  <span className="pr-20">
-                    <p>Classificação Indicativa:</p>
-                    <p className="bg-black border-2 rounded-lg 
-                                  p-1 mt-1 w-10 h-10
-                                  text-center font-bold text-lg">18</p>
-                  </span>
-                  <span className="flex items-center 
-                                  border-l border-r 
-                                  pl-20 pr-20">
-                    <img className="w-14 mr-5" src="/images/icons/bullseye-arrow.png" alt="target" />
-                    <p>Ação</p>
+                  <Classification classification={ game.attributes.classification } ></Classification>
+                  <span className="border-l border-r 
+                                  pl-10 pr-10">
+                    <p className="mb-2">Gêneros:</p>
+                    <span className="flex">
+                      {
+                        genres.data.map(genre => {
+                          return (
+                            <p key={genre.id} className="bg-stone-800 rounded-lg 
+                                  pr-3 pb-0.5 pl-3 mr-1 mb-1
+                                  flex-wrap">{ genre.attributes.genre }</p>
+                          );
+                        })
+                      }
+                    </span>
                   </span>
                   <span className="pl-20">
                     <p>Classificação Metacritic:</p>
-                    <p className="text-xl font-bold">74</p>
+                    <p className="text-xl font-bold">{ game.attributes.metacritic_score }</p>
                   </span>
                 </div>
               </div>
-              <div className="bg-stone-950 rounded-xl 
-                              p-5 w-60">
-                <p className="border-b mb-2 pb-1">Desenvolvedor: Ubisoft</p>
-                <p className="border-b mb-2 pb-1">Publisher: Ubisoft</p>
-                <p className="border-b mb-2 pb-1">Lançamento: 7 out. 2021</p>
+              <div className="bg-stone-800 rounded-xl 
+                              p-5 w-64 max-h-56
+                              text-sm font-semibold">
+                <p className="border-b mb-2 pb-1">Desenvolvedor: { game.attributes.developer }</p>
+                <p className="border-b mb-2 pb-1">Publisher: { game.attributes.publisher }</p>
+                <p className="border-b mb-2 pb-1">Lançamento: { utils.getFormattedDate(game.attributes.launch_date) }</p>
                 <p className="flex border-b mb-2 pb-1">Plataforma:
                   <img className="w-5 h-5 ml-3" src="/images/icons/windows.png" alt="windows" />
                 </p>
-                <p>Tamanho: 60GB</p>
+                <p className="border-b mb-2 pb-1">Tamanho: { game.attributes.size + game.attributes.measurement }</p>
               </div>
             </div>
             <div className="bg-stone-800 flex 
                             w-2/3 mt-10 pt-4 pb-4
                             rounded-xl text-sm font-medium">
-              <div className="pl-4 pr-4 border-r">
-                <h5 className="text-lg mb-2">Requisitos mínimos</h5>
-                <ul>
-                  <li className="mb-2">
-                    <span>Sistema operacional: </span>
-                    <span>Windows 10 (versão 20H1 ou superior, 64 bits)</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Processador: </span>
-                    <span>AMD Ryzen 3 1200 3GHZ ou Intel Core i5 4460 3.1GHZ</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Memória RAM: </span>
-                    <span>8 GB</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Placa de vídeo: </span>
-                    <span>AMD RX 460 (4GB) ou NVIDIA GeForce GTX 960 (4GB)</span>
-                  </li>
-                </ul>
-              </div>
-              <div className="pl-4 pr-4">
-                <h5 className="text-lg mb-2">Resquisitos recomendados</h5>
-                <ul>
-                  <li className="mb-2">
-                    <span>Sistema operacional: </span>
-                    <span>Windows 10 (versão 20H1 ou superior, 64 bits)</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Processador: </span>
-                    <span>AMD Ryzen 5 3600X 3.8GHZ ou Intel Core i7 4460 3.6GHZ</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Memória RAM: </span>
-                    <span>16 GB</span>
-                  </li>
-                  <li className="mb-2">
-                    <span>Placa de vídeo:</span>
-                    <span>AMD RX Vega 64 (8GB) ou NVIDIA GeForce GTX 1080 (8GB)</span>
-                  </li>
-                </ul>
-              </div>
+              {
+                minimumSpec && ( <Specs specs={minimumSpec}></Specs> )
+              }
+              {
+                recommendedSpec && ( <Specs specs={recommendedSpec}></Specs> )
+              }
             </div>
           </div>
         )
