@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import CardH from "../layout/Catalog/CardH";
 import CardV from "../layout/Catalog/CardV";
 import Carousel from "../layout/Catalog/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
 import PopularGames from "../layout/Homepage/PopularGames";
+import Highlights from "../layout/Homepage/Highlights";
 
 
 function Home() {
@@ -35,20 +35,16 @@ function Home() {
           <Carousel></Carousel>
         </div>
         <h3 className="text-2xl mb-5 font-bold">Promoções</h3>
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-between overflow-hidden mb-10">
           {
             games.map(game => {
               return (
-                <CardV game={game}></CardV>
+                <CardV key={game.id} game={game}></CardV>
               );
             })
           }
         </div>
-        <h3 className="text-2xl mb-5 font-bold">Destaques</h3>
-        <div className="flex justify-between mb-10">
-          <CardH></CardH>
-          <CardH></CardH>
-        </div>
+        <Highlights></Highlights>
         <PopularGames></PopularGames>
       </div>
       <Footer></Footer>
