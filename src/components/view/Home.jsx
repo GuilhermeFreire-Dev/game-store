@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import CardH from "../layout/Catalog/CardH";
 import CardV from "../layout/Catalog/CardV";
 import Carousel from "../layout/Catalog/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
+import Highlights from "../layout/Homepage/Highlights";
 
 
 function Home() {
@@ -43,11 +43,7 @@ function Home() {
             })
           }
         </div>
-        <h3 className="text-2xl mb-5 font-bold">Destaques</h3>
-        <div className="flex justify-between mb-10">
-          <CardH></CardH>
-          <CardH></CardH>
-        </div>
+        <Highlights></Highlights>
         <h3 className="text-2xl mb-5 font-bold">Mais populares</h3>
         <div className="flex justify-between mb-10">
           <CardV></CardV>
