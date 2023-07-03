@@ -38,7 +38,7 @@ function Home() {
           {
             games.map(game => {
               return (
-                <CardV game={game}></CardV>
+                <CardV key={game.id} game={game}></CardV>
               );
             })
           }
