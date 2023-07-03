@@ -34,7 +34,7 @@ function Home() {
           <Carousel></Carousel>
         </div>
         <h3 className="text-2xl mb-5 font-bold">Promoções</h3>
-        <div className="flex justify-center mb-10">
+        <div className="flex justify-between overflow-hidden mb-10">
           {
             games.map(game => {
               return (
