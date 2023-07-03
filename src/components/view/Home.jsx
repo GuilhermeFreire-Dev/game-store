@@ -5,6 +5,7 @@ import Carousel from "../layout/Catalog/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
+import PopularGames from "../layout/Homepage/PopularGames";
 
 
 function Home() {
@@ -48,14 +49,7 @@ function Home() {
           <CardH></CardH>
           <CardH></CardH>
         </div>
-        <h3 className="text-2xl mb-5 font-bold">Mais populares</h3>
-        <div className="flex justify-between mb-10">
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-        </div>
+        <PopularGames></PopularGames>
       </div>
       <Footer></Footer>
     </>
