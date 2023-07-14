@@ -5,11 +5,9 @@ function Carousel() {
 
   const [index, setIndex] = useState(1);
   const [carousel, setCarousel] = useState(null);
-  const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
   useEffect(() => {
     getCarousel();
-    // autoplay();
   }, []);
 
   async function getCarousel() {
@@ -23,10 +21,6 @@ function Carousel() {
       })
     }
   } 
-
-  async function autoplay() {
-
-  }
 
   function sideTo(index) {
     setIndex(index);
