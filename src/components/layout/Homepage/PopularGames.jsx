@@ -7,14 +7,16 @@ function PopularGames() {
   const [games, setGames] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:1337/api/games?sort=popularity%3Adesc&pagination[pageSize]=5")
-    .then(response => {
-      setGames(response.data.data);
-    })
-    .catch(error => {
-      console.log("error");
-    })
-  }, [])
+    if (!games) {
+      axios.get("http://localhost:1337/api/games?sort=popularity%3Adesc&pagination[pageSize]=5")
+      .then(response => {
+        setGames(response.data.data);
+      })
+      .catch(error => {
+        console.log("error");
+      })
+    }
+  }, []);
 
   return (
     games && (
@@ -23,7 +25,7 @@ function PopularGames() {
         <div className="flex justify-between mb-10">
           {
             games.map(game => ((
-              <CardV game={game}></CardV>
+              <CardV key={game.id} game={game}></CardV>
             )))
           }
         </div>
