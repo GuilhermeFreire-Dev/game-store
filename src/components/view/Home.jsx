@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import CardV from "../layout/Catalog/CardV";
-import Carousel from "../layout/Catalog/Carousel";
+import Carousel from "../layout/Homepage/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
