@@ -7,6 +7,7 @@ import Utils from "../../scripts/Utils";
 import Classification from "../layout/Game/Classification";
 import Media from "../layout/Game/Media";
 import Specs from "../layout/Game/Specs";
+import SimilarGames from "../layout/Game/SimilarGames";
 
 function Game() {
 
@@ -20,7 +21,7 @@ function Game() {
 
   useEffect(() => {
     if (params) {
-      axios.get(`http://localhost:1337/api/games/${params.id}?populate=*`)
+      axios.get(`${process.env.REACT_APP_API_URL}/api/games/${params.id}?populate=*`)
       .then(response => {
         setGame(response.data.data);
         setMedias(response.data.data.attributes.game_medias);
@@ -137,6 +138,7 @@ function Game() {
                 recommendedSpec && ( <Specs specs={recommendedSpec}></Specs> )
               }
             </div>
+            <SimilarGames genres={genres.data} gameId={game.id}></SimilarGames>
           </div>
         )
       }
