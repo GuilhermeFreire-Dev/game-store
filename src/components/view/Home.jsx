@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
 import CardV from "../layout/Catalog/CardV";
 import Carousel from "../layout/Catalog/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
-import axios from "axios";
 import Highlights from "../layout/Homepage/Highlights";
 import Promotions from "../layout/Homepage/Promotions";
 
