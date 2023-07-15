@@ -1,17 +1,12 @@
-import { useEffect } from "react";
 import Utils from "../../../scripts/Utils";
 
 function CardV({game}) {
 
   const utils = new Utils();
 
-  useEffect(() => {
-
-  }, [])
-
   return (
     game && (
-      <a href={`game/${game.id}`}>
+      <a href={`${process.env.REACT_APP_URL}/game/${game.id}`}>
         <div className="flex flex-col
                       bg-stone-800 rounded-xl
                         w-52 max-h-96 p-3 m-2
