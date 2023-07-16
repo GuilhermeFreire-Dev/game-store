@@ -1,7 +1,7 @@
 
 function CardH({game}) {
   return (
-    <a className="w-1/2" href={`game/${game.id}`}>
+    <a className="w-1/2" href={`${process.env.REACT_APP_URL}/game/${game.id}`}>
       <div className="bg-stone-800 rounded-xl
                       p-4 pb-0 m-2 min-h-full
                       select-none
