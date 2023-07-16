@@ -2,6 +2,7 @@ import CardV from "../layout/Catalog/CardV";
 import Carousel from "../layout/Catalog/Carousel";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
+import PopularGames from "../layout/Homepage/PopularGames";
 import Highlights from "../layout/Homepage/Highlights";
 import Promotions from "../layout/Homepage/Promotions";
 
@@ -20,14 +21,7 @@ function Home() {
         </div>
         <Promotions></Promotions>
         <Highlights></Highlights>
-        <h3 className="text-2xl mb-5 font-bold">Mais populares</h3>
-        <div className="flex justify-between mb-10">
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-          <CardV></CardV>
-        </div>
+        <PopularGames></PopularGames>
       </div>
       <Footer></Footer>
     </>
