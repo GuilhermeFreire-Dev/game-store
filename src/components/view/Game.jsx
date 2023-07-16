@@ -123,7 +123,8 @@ function Game() {
                 <p className="border-b mb-2 pb-1">Publisher: { game.attributes.publisher }</p>
                 <p className="border-b mb-2 pb-1">Lançamento: { utils.getFormattedDate(game.attributes.launch_date) }</p>
                 <p className="flex border-b mb-2 pb-1">Plataforma:
-                  <img className="w-5 h-5 ml-3" src="/images/icons/windows.png" alt="windows" />
+                  <span className="bg-stone-700 rounded-xl 
+                                    pr-2 pb-0.5 pl-2 mr-1 mb-1 ml-1">{ game.attributes.platform }</span>
                 </p>
                 <p className="border-b mb-2 pb-1">Tamanho: { game.attributes.size + game.attributes.measurement }</p>
               </div>
