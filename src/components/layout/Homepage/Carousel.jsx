@@ -3,26 +3,16 @@ import { useEffect, useState } from "react";
 
 function Carousel() {
 
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(1);
   const [carousel, setCarousel] = useState(null);
 
   useEffect(() => {
     getCarousel();
-
-    if (carousel) {
-      const interval = setInterval(() => {
-        setIndex((index) => index % carousel.length + 1)
-      }, 4000);
-  
-      return () => {
-        clearInterval(interval)
-      };
-    }
   }, []);
 
-  function getCarousel() {
+  async function getCarousel() {
     if (!carousel) {
-      axios.get("http://localhost:1337/api/game-carousels/1?populate=*")
+      await axios.get("http://localhost:1337/api/game-carousels/1?populate=*")
       .then(response => {
         setCarousel(response.data.data.attributes.games.data);
       })
@@ -30,7 +20,7 @@ function Carousel() {
         console.log("error");
       })
     }
-  }
+  } 
 
   function sideTo(index) {
     setIndex(index);
@@ -64,7 +54,7 @@ function Carousel() {
           {
             carousel.map(function(item, id = 0) {
               return (
-                <div className={++id === index ? "bg-stone-500 p-5 w-full rounded-xl cursor-pointer duration-300" : "bg-stone-800 p-5 w-full rounded-xl cursor-pointer duration-300 hover:bg-stone-700"}
+                <div key={item.id} className={++id === index ? "bg-stone-500 p-5 w-full rounded-xl cursor-pointer duration-300" : "bg-stone-800 p-5 w-full rounded-xl cursor-pointer duration-300 hover:bg-stone-700"}
                   onClick={() => sideTo(id)}
                 >
                   <p>{item.attributes.name}</p>
