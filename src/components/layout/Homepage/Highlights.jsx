@@ -4,26 +4,26 @@ import CardH from "./CardH";
 
 function Highlights() {
 
-  const [games, setGames] = useState(null);
+  const [games, setGames] = useState([]);
 
   useEffect(() => {
     getHighlightsGames();
   }, [])
 
   async function getHighlightsGames() {
-    if (!games) {
-      await axios.get("http://localhost:1337/api/games?filters[highlighted][$eq]=true")
+    if (!games.length) {
+      await axios.get(`${process.env.REACT_APP_API_URL}/api/games?filters[highlighted][$eq]=true`)
       .then(response => {
         setGames(response.data.data);
       })
       .catch(error => {
-        console.log("error");
+        console.log(error);
       })
     }
   }
 
   return (
-    games && (
+    games.length > 0 && (
       <>
         <h3 className="text-2xl mb-5 font-bold">Destaques</h3>
         <div className="inline-flex w-full mb-10">

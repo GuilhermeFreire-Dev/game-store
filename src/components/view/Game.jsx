@@ -7,6 +7,7 @@ import Utils from "../../scripts/Utils";
 import Classification from "../layout/Game/Classification";
 import Media from "../layout/Game/Media";
 import Specs from "../layout/Game/Specs";
+import SimilarGames from "../layout/Game/SimilarGames";
 
 function Game() {
 
@@ -20,7 +21,7 @@ function Game() {
 
   useEffect(() => {
     if (params) {
-      axios.get(`http://localhost:1337/api/games/${params.id}?populate=*`)
+      axios.get(`${process.env.REACT_APP_API_URL}/api/games/${params.id}?populate=*`)
       .then(response => {
         setGame(response.data.data);
         setMedias(response.data.data.attributes.game_medias);
@@ -122,7 +123,8 @@ function Game() {
                 <p className="border-b mb-2 pb-1">Publisher: { game.attributes.publisher }</p>
                 <p className="border-b mb-2 pb-1">Lançamento: { utils.getFormattedDate(game.attributes.launch_date) }</p>
                 <p className="flex border-b mb-2 pb-1">Plataforma:
-                  <img className="w-5 h-5 ml-3" src="/images/icons/windows.png" alt="windows" />
+                  <span className="bg-stone-700 rounded-xl 
+                                    pr-2 pb-0.5 pl-2 mr-1 mb-1 ml-1">{ game.attributes.platform }</span>
                 </p>
                 <p className="border-b mb-2 pb-1">Tamanho: { game.attributes.size + game.attributes.measurement }</p>
               </div>
@@ -137,6 +139,7 @@ function Game() {
                 recommendedSpec && ( <Specs specs={recommendedSpec}></Specs> )
               }
             </div>
+            <SimilarGames genres={genres.data} gameId={game.id}></SimilarGames>
           </div>
         )
       }
