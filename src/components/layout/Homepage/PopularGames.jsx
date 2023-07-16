@@ -4,11 +4,11 @@ import CardV from "../Catalog/CardV";
 
 function PopularGames() {
 
-  const [games, setGames] = useState(null);
+  const [games, setGames] = useState([]);
 
   useEffect(() => {
-    if (!games) {
-      axios.get("http://localhost:1337/api/games?sort=popularity%3Adesc&pagination[pageSize]=5")
+    if (!games.length) {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/games?sort=popularity%3Adesc&pagination[pageSize]=5`)
       .then(response => {
         setGames(response.data.data);
       })
@@ -19,10 +19,10 @@ function PopularGames() {
   }, []);
 
   return (
-    games && (
+    games.length > 0 && (
       <>
-        <h3 className="text-2xl mb-5 font-bold">Mais populares</h3>
-        <div className="flex justify-between mb-10">
+        <h3 className="text-2xl mb-5 ml-10 font-bold">Mais populares</h3>
+        <div className="flex w-fit justify-start m-auto pb-10">
           {
             games.map(game => ((
               <CardV key={game.id} game={game}></CardV>
