@@ -22,7 +22,7 @@ function Navegar() {
   }, [genres, selectedGenre]);
 
   async function getGameGenres() {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/game-genres`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/game-genres?sort=genre`)
     .then(response => {
       setGenres(response.data.data);
     })
@@ -34,7 +34,7 @@ function Navegar() {
   return (
     <>
       <Navbar></Navbar>
-      <div className=" flex pt-5 pr-44 pb-10 pl-44">
+      <div className=" flex pt-5 pr-44 pb-10 pl-44 mt-24">
         <div>
           <h3 className="text-2xl mb-5 font-bold">Navegar</h3>
           {

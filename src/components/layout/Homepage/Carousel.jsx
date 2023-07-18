@@ -54,7 +54,7 @@ function Carousel() {
           {
             carousel.map(function(item, id = 0) {
               return (
-                <div key={item.id} className={++id === index ? "bg-stone-500 p-5 w-full rounded-xl cursor-pointer duration-300" : "bg-stone-800 p-5 w-full rounded-xl cursor-pointer duration-300 hover:bg-stone-700"}
+                <div key={item.id} className={++id === index ? "bg-stone-500 p-5 w-full rounded-xl cursor-pointer duration-300 select-none" : "bg-stone-800 p-5 w-full rounded-xl cursor-pointer duration-300 hover:bg-stone-700 select-none"}
                   onClick={() => sideTo(id)}
                 >
                   <p>{item.attributes.name}</p>

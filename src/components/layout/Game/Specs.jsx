@@ -1,9 +1,9 @@
 
 
-function Specs({specs}) {
+function Specs({specs, nvl}) {
   return (
     <div className="pl-4 pr-4 w-1/2">
-      <h5 className="text-lg mb-2">Requisitos mínimos:</h5>
+      <h5 className="text-lg mb-2">{ `Requisitos ${nvl}:`}</h5>
       <ul>
         <li className="mb-2">
           <span>Sistema operacional: </span>

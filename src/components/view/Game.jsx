@@ -8,6 +8,7 @@ import Classification from "../layout/Game/Classification";
 import Media from "../layout/Game/Media";
 import Specs from "../layout/Game/Specs";
 import SimilarGames from "../layout/Game/SimilarGames";
+import { IoAddCircle } from "react-icons/io5";
 
 function Game() {
 
@@ -40,7 +41,7 @@ function Game() {
       <Navbar></Navbar>
       {
         game && (
-          <div className="pt-5 pr-44 pb-20 pl-44">
+          <div className="pt-5 pr-44 pb-20 pl-44 mt-24">
             <h3 className="text-3xl font-semibold">{ game.attributes.name }</h3>
             <div className="flex justify-between mt-5">
               <Media medias={medias}></Media>
@@ -48,18 +49,26 @@ function Game() {
                 <img className="w-40 h-60 mb-4 rounded-lg" src={ game.attributes.image_url } alt="far-cry-6" />
                 <div className="flex items-end mb-4">
                   <div className="mr-5">
-                    <h5 className="text-stone-400 line-through">{ utils.getMonetaryFormat(game.attributes.last_price) }</h5>
+                    {
+                      game.attributes.last_price && (
+                        <h5 className="text-stone-400 line-through">{ utils.getMonetaryFormat(game.attributes.last_price) }</h5>
+                      )
+                    }
                     <h3 className="text-2xl font-bold">{ utils.getMonetaryFormat(game.attributes.current_price) }</h3>
                   </div>
-                  <span className="bg-gradient-to-r from-violet-600 to-blue-600
-                              w-12 h-6 p-0.5
-                              rounded-lg
-                              text-center
-                              text-sm
-                              font-semibold"
-                  >
-                    -{ utils.getDiscount(game.attributes.current_price, game.attributes.last_price) }%
-                  </span>
+                  {
+                    utils.getDiscount(game.attributes.current_price, game.attributes.last_price) > 0 && (
+                      <span className="bg-gradient-to-r from-violet-600 to-blue-600
+                                      w-12 h-6 p-0.5
+                                      rounded-lg
+                                      text-center
+                                      text-sm
+                                      font-semibold"
+                      >
+                        -{ utils.getDiscount(game.attributes.current_price, game.attributes.last_price) }%
+                      </span>
+                    )
+                  }
                 </div>
                 <div>
                   {
@@ -77,13 +86,11 @@ function Game() {
                                       hover:bg-blue-500">
                       COMPRAR
                   </button>
-                  <button className="flex border-2 border-solid border-white rounded-lg
+                  <button className="flex items-center
+                                    border-2 border-solid border-white rounded-lg
                                     pt-2 pr-8 pb-2 pl-8
                                     hover:bg-white hover:bg-opacity-10">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
-                      <path d="M0 0h24v24H0V0z" fill="none"/>
-                      <path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-8.9-5h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4l-3.87 7H8.53L4.27 2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2z"/>
-                    </svg>
+                    <IoAddCircle className="w-5 h-5 mr-2 ml-2"></IoAddCircle>
                     Adicionar ao carrinho
                   </button>
                 </div>
@@ -96,9 +103,9 @@ function Game() {
                 <div className="flex items-center mt-10 mb-5">
                   <Classification classification={ game.attributes.classification } ></Classification>
                   <span className="border-l border-r 
-                                  pl-10 pr-10">
+                                  pl-5 pr-5">
                     <p className="mb-2">Gêneros:</p>
-                    <span className="flex">
+                    <span className="flex flex-wrap">
                       {
                         genres.data.map(genre => {
                           return (
@@ -110,7 +117,7 @@ function Game() {
                       }
                     </span>
                   </span>
-                  <span className="pl-20">
+                  <span className="pl-5">
                     <p>Classificação Metacritic:</p>
                     <p className="text-xl font-bold">{ game.attributes.metacritic_score }</p>
                   </span>
@@ -133,10 +140,10 @@ function Game() {
                             w-2/3 mt-10 pt-4 pb-4
                             rounded-xl text-sm font-medium">
               {
-                minimumSpec && ( <Specs specs={minimumSpec}></Specs> )
+                minimumSpec && ( <Specs specs={minimumSpec} nvl={"mínimos"}></Specs> )
               }
               {
-                recommendedSpec && ( <Specs specs={recommendedSpec}></Specs> )
+                recommendedSpec && ( <Specs specs={recommendedSpec} nvl={"recomendados"}></Specs> )
               }
             </div>
             <SimilarGames genres={genres.data} gameId={game.id}></SimilarGames>

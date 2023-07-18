@@ -1,4 +1,4 @@
-import { BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
+import { IoLogoFacebook, IoLogoInstagram, IoLogoTwitch, IoLogoTwitter } from "react-icons/io5";
 
 function Footer() {
   return (
@@ -23,9 +23,9 @@ function Footer() {
       <div>
         <p>Siga nossas redes</p>
         <div className="flex mt-2">
-          <a href="#"><BsInstagram className="mr-2 cursor-pointer"></BsInstagram></a>
-          <a href="#"><BsFacebook className="mr-2 cursor-pointer"></BsFacebook></a>
-          <a href="#"><BsTwitter className="cursor-pointer"></BsTwitter></a>
+          <a href="#"><IoLogoInstagram className="mr-2 w-5 h-5 cursor-pointer"></IoLogoInstagram></a>
+          <a href="#"><IoLogoFacebook className="mr-2 w-5 h-5 cursor-pointer"></IoLogoFacebook></a>
+          <a href="#"><IoLogoTwitter className="w-5 h-5 cursor-pointer"></IoLogoTwitter></a>
         </div>
       </div>
     </footer>
