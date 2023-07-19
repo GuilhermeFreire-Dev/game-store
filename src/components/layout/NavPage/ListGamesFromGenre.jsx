@@ -8,7 +8,6 @@ function ListGamesFromGenre({selectedGenre}) {
   const [games, setGames] = useState([]);
 
   useEffect(() => {
-    console.log(process.env);
     if (selectedGenre) {
       getGamesByGenre();
     }
@@ -24,24 +23,38 @@ function ListGamesFromGenre({selectedGenre}) {
     });
   }
 
-  return (
-    games.length && (
-      <>
-        <h3 className="text-xl mb-3 ml-3 font-bold">{ selectedGenre.attributes.genre }</h3>
-        <div className="flex flex-wrap h-min items-start">
-          {
-            games && (
-              games.map(game => {
-                return (
-                  <CardV key={game.id} game={game}></CardV>
-                )
-              })
-            )
-          }
-        </div>
-      </>
-    )
-  );
+  function component() {
+    if (games.length > 0) {
+      return (
+        <>
+          <h3 className="text-xl mb-3 ml-3 font-bold">{ selectedGenre.attributes.genre }</h3>
+          <div className="flex flex-wrap h-min items-start">
+            {
+              games && (
+                games.map(game => {
+                  return (
+                    <CardV key={game.id} game={game}></CardV>
+                  )
+                })
+              )
+            }
+          </div>
+        </>
+      );
+    }
+    else {
+      if (selectedGenre) {
+        return (
+          <>
+            <h3 className="text-xl mb-3 ml-3 font-bold">{ selectedGenre.attributes.genre }</h3>
+            <h3 className="ml-3 mt-5 text-lg">Nenhum jogo encontrado.</h3>
+          </>
+        );
+      }
+    }
+  }
+
+  return component();
 }
 
 export default ListGamesFromGenre;

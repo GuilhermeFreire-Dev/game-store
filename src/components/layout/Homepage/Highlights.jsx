@@ -10,7 +10,7 @@ function Highlights() {
     if (!games.length) {
       getHighlightsGames();
     }
-  }, [])
+  }, []);
 
   async function getHighlightsGames() {
     await axios.get(`${process.env.REACT_APP_API_URL}/api/games?filters[highlighted][$eq]=true`)
@@ -18,7 +18,7 @@ function Highlights() {
       setGames(response.data.data);
     })
     .catch(error => {
-      console.log("error");
+      console.log(error);
     })
   }
 

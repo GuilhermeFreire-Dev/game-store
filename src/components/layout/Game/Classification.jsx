@@ -37,7 +37,7 @@ function Classification({classification}) {
   }
 
   return (
-    <span className="pr-20">
+    <span className="pr-10">
       <p>Classificação Indicativa:</p>
       <p className={"border-2 rounded-lg p-1 mt-1 w-10 h-10 text-center font-bold text-lg " + color}>{ classification !== 1 ? classification : "L"}</p>
     </span>
