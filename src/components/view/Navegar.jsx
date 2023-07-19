@@ -27,7 +27,7 @@ function Navegar() {
       setGenres(response.data.data);
     })
     .catch(error => {
-      console.log("error1");
+      console.log(error);
     });
   }
 

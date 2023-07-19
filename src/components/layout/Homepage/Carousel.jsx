@@ -12,12 +12,12 @@ function Carousel() {
 
   async function getCarousel() {
     if (!carousel) {
-      await axios.get("http://localhost:1337/api/game-carousels/1?populate=*")
+      await axios.get(`${process.env.REACT_APP_API_URL}/api/game-carousels/1?populate=*`)
       .then(response => {
         setCarousel(response.data.data.attributes.games.data);
       })
       .catch(error => {
-        console.log("error");
+        console.log(error);
       })
     }
   } 
@@ -49,8 +49,7 @@ function Carousel() {
             }
           </div>
         </div>
-        <div className="flex flex-col justify-between 
-                        w-1/3 pl-10">
+        <div className="flex flex-col justify-between w-1/3 pl-10">
           {
             carousel.map(function(item, id = 0) {
               return (

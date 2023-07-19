@@ -34,7 +34,7 @@ function Game() {
         console.log(error);
       })
     }
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -59,13 +59,8 @@ function Game() {
                   {
                     utils.getDiscount(game.attributes.current_price, game.attributes.last_price) > 0 && (
                       <span className="bg-gradient-to-r from-violet-600 to-blue-600
-                                      w-12 h-6 p-0.5
-                                      rounded-lg
-                                      text-center
-                                      text-sm
-                                      font-semibold"
-                      >
-                        -{ utils.getDiscount(game.attributes.current_price, game.attributes.last_price) }%
+                                      w-12 h-6 p-0.5 rounded-lg text-center text-sm font-semibold">
+                        { `-${utils.getDiscount(game.attributes.current_price, game.attributes.last_price)}%` }
                       </span>
                     )
                   }
@@ -75,8 +70,8 @@ function Game() {
                     game.attributes.edition && (
                       <span className="bg-stone-700 rounded-md
                                   text-xs font-medium
-                                  pt-0.5 pr-2 pb-0.5 pl-2">
-                        Standard Edition
+                                  pt-1 pr-2 pb-1 pl-2">
+                        { game.attributes.edition }
                       </span>
                     )
                   }
@@ -123,9 +118,7 @@ function Game() {
                   </span>
                 </div>
               </div>
-              <div className="bg-stone-800 rounded-xl 
-                              p-5 w-64 max-h-56
-                              text-sm font-semibold">
+              <div className="bg-stone-800 rounded-xl p-5 w-64 max-h-56 text-sm font-semibold">
                 <p className="border-b mb-2 pb-1">Desenvolvedor: { game.attributes.developer }</p>
                 <p className="border-b mb-2 pb-1">Publisher: { game.attributes.publisher }</p>
                 <p className="border-b mb-2 pb-1">Lançamento: { utils.getFormattedDate(game.attributes.launch_date) }</p>
@@ -139,12 +132,8 @@ function Game() {
             <div className="bg-stone-800 flex 
                             w-2/3 mt-10 pt-4 pb-4
                             rounded-xl text-sm font-medium">
-              {
-                minimumSpec && ( <Specs specs={minimumSpec} nvl={"mínimos"}></Specs> )
-              }
-              {
-                recommendedSpec && ( <Specs specs={recommendedSpec} nvl={"recomendados"}></Specs> )
-              }
+              { minimumSpec && ( <Specs specs={minimumSpec} nvl={"mínimos"}></Specs> ) }
+              { recommendedSpec && ( <Specs specs={recommendedSpec} nvl={"recomendados"}></Specs> ) }
             </div>
             <SimilarGames genres={genres.data} gameId={game.id}></SimilarGames>
           </div>

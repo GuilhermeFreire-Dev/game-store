@@ -31,9 +31,7 @@ function Media({medias}) {
         {
           medias.data.map(function (media, id = 0) {
             return (
-              <>
-                <img key={media.id} className={++id === index ? "rounded-xl w-full h-full" : "hidden" } src={media.attributes.media_url} alt={media.attributes.description}></img>
-              </>
+              <img key={media.id} className={++id === index ? "rounded-xl w-full h-full" : "hidden" } src={media.attributes.media_url} alt={media.attributes.description}></img>
             );
           })
         }
