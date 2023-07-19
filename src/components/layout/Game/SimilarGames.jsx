@@ -36,7 +36,9 @@ function SimilarGames({genres, gameId}) {
     games.length > 0 && (
       <>
         <h3 className="text-2xl mb-5 mt-10 font-bold">Você pode se interessar por</h3>
-        <div className="flex justify-start w-fit">
+        <div className="flex justify-start flex-wrap 
+                      overflow-y-hidden 
+                      m-auto mb-5 pb-10 max-h-96">
           {
             games.map(game => {
               return (
