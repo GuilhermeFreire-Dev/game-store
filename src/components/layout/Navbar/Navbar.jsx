@@ -3,9 +3,9 @@ import SearchBar from "./SearchBar";
 
 function Navbar() {
   return (
-    <header className='bg-stone-900 flex items-center justify-between 
-                       pl-20 pr-20 h-24 w-full z-10
-                       fixed top-0'>
+    <header className='bg-stone-900 flex items-center justify-between
+                        pl-20 pr-20 h-24 w-full z-10
+                        fixed top-0'>
       <div className='flex items-center'>
         <a href="#" className="mr-5 w-32">
           <img src="/images/fulllogo.svg" alt="logo"/>
@@ -20,6 +20,11 @@ function Navbar() {
         </div>
       </div>
       <SearchBar></SearchBar>
+      <div>
+      <a className="ml-1 pt-1 pr-3 pb-2 pl-3
+                        rounded-2xl duration-300
+                        hover:bg-stone-600" href="#">Carrinho</a>
+      </div>
       <div className="flex items-center pt-1 pr-3 pb-1 pl-3
                       rounded-3xl cursor-pointer
                       hover:bg-stone-600 duration-300">
