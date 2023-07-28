@@ -29,7 +29,7 @@ function CardGameResume() {
   };
 
   return (
-    <div className="bg-stone-950 flex w-1/2 p-5 m-auto rounded-xl">
+    <div className="bg-stone-950 flex w-4/6 mb-5 m-auto p-5 rounded-xl">
       <img className="w-2/12 rounded-lg" src={game.attributes.image_url} alt="game" />
       <div className="pl-5 pr-5 w-2/3">
         <h4 className="font-bold text-2xl mb-2">{ game.attributes.name }</h4>

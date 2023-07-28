@@ -23,7 +23,7 @@ function Navbar() {
       <div>
       <a className="ml-1 pt-1 pr-3 pb-2 pl-3
                         rounded-2xl duration-300
-                        hover:bg-stone-600" href="#">Carrinho</a>
+                        hover:bg-stone-600" href={ `${process.env.REACT_APP_URL}/carrinho` }>Carrinho</a>
       </div>
       <div className="flex items-center pt-1 pr-3 pb-1 pl-3
                       rounded-3xl cursor-pointer
