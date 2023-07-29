@@ -5,6 +5,7 @@ import Home from './components/view/Home';
 import Navegar from './components/view/Navegar';
 import Game from './components/view/Game';
 import NoContent from './components/view/NoContent';
+import Cart from './components/view/Cart';
 
 function App() {
 
@@ -21,6 +22,10 @@ function App() {
     {
       path: "/game/:id",
       element: <Game></Game>
+    },
+    {
+      path: "/carrinho",
+      element: <Cart></Cart>
     }
   ]);
 

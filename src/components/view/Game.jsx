@@ -8,7 +8,7 @@ import Classification from "../layout/Game/Classification";
 import Media from "../layout/Game/Media";
 import Specs from "../layout/Game/Specs";
 import SimilarGames from "../layout/Game/SimilarGames";
-import { IoAddCircle } from "react-icons/io5";
+import { MdAddShoppingCart, MdCheckCircle } from "react-icons/md";
 
 function Game() {
 
@@ -18,10 +18,12 @@ function Game() {
   const [genres, setGenres] = useState(null);
   const [minimumSpec, setMinimumSpec] = useState(null);
   const [recommendedSpec, setRecommendedSpec] = useState(null);
+  const [itemOnCart, setItemOnCart] = useState(false);
+  const [cart, setCart] = useState([]);
   const utils = new Utils();
 
   useEffect(() => {
-    if (params) {
+    if (params && !game) {
       axios.get(`${process.env.REACT_APP_API_URL}/api/games/${params.id}?populate=*`)
       .then(response => {
         setGame(response.data.data);
@@ -33,12 +35,44 @@ function Game() {
       .catch(error => {
         console.log(error);
       })
+      getCart();
     }
-  }, []);
+  }, [cart]);
+
+  useEffect(() => {
+    checkItemOnCart();
+  }, [game]);
+  
+  function getCart() {
+    let sessionCart = sessionStorage.getItem("cart");
+    if (sessionCart) {
+      setCart(JSON.parse(sessionCart));
+    }
+  }
+
+  function checkItemOnCart() {
+    if (cart.length && game) {
+      cart.forEach(function (cartItem) {
+        if (cartItem.id === game.id) {
+          setItemOnCart(true);
+        }
+      });
+    }
+  }
+
+  function addToCart() {
+    let newItem = {
+      id: game.id,
+      item: game.attributes.name
+    };
+    cart.push(newItem);
+    setItemOnCart(true);
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+  }
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar itemsOnCart={cart.length}></Navbar>
       {
         game && (
           <div className="pt-5 pr-44 pb-20 pl-44 mt-24">
@@ -75,19 +109,33 @@ function Game() {
                       </span>
                     )
                   }
-                  <button className="bg-blue-600
+                  {
+                    !itemOnCart && (
+                      <>
+                        <button type="button" className="bg-blue-600
                                       pt-2 pb-2 mb-2 mt-2 w-full
                                       rounded-lg
                                       hover:bg-blue-500">
-                      COMPRAR
-                  </button>
-                  <button className="flex items-center
-                                    border-2 border-solid border-white rounded-lg
-                                    pt-2 pr-8 pb-2 pl-8
-                                    hover:bg-white hover:bg-opacity-10">
-                    <IoAddCircle className="w-5 h-5 mr-2 ml-2"></IoAddCircle>
-                    Adicionar ao carrinho
-                  </button>
+                            COMPRAR
+                        </button>
+                        <button type="button" onClick={addToCart} className="flex items-center
+                                          border-2 border-solid border-white rounded-lg
+                                          pt-2 pr-8 pb-2 pl-8
+                                          hover:bg-white hover:bg-opacity-10">
+                          <MdAddShoppingCart className="w-5 h-5 mr-2 ml-2"></MdAddShoppingCart>
+                          Adicionar ao carrinho
+                        </button>
+                      </>
+                    )
+                  }
+                 {
+                  itemOnCart && (
+                    <p className="flex items-center justify-center bg-lime-500 rounded-lg pt-2 pr-8 pb-2 pl-8 mt-2 select-none">
+                      <MdCheckCircle className="mr-2 w-5 h-5"></MdCheckCircle>
+                      Adicionado ao carrinho
+                    </p>
+                  )
+                 }
                 </div>
               </div>
             </div>
