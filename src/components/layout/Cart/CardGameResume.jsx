@@ -21,7 +21,11 @@ function CardGameResume({game, removeItemCart}) {
           <a onClick={() => removeItemCart(game.id)} href="#" className="text-stone-400 font-semibold text-end">Remover</a>
           <div className="inline-flex items-end">
             <div className="mr-3">
-              <p className="text-stone-400 line-through">{ `${utils.getMonetaryFormat(game.attributes.last_price)}` }</p>
+              {
+                game.attributes.last_price > game.attributes.current_price && (
+                  <p className="text-stone-400 line-through">{ `${utils.getMonetaryFormat(game.attributes.last_price)}` }</p>
+                )
+              }
               <p className="font-semibold text-xl">{ `${utils.getMonetaryFormat(game.attributes.current_price)}` }</p>
             </div>
            {

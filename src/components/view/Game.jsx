@@ -37,7 +37,7 @@ function Game() {
       })
       getCart();
     }
-  }, []);
+  }, [cart]);
 
   useEffect(() => {
     checkItemOnCart();
@@ -61,29 +61,18 @@ function Game() {
   }
 
   function addToCart() {
-    if (cart.length) {
-      let newItem = {
-        id: game.id,
-        item: game.attributes.name
-      };
-      cart.push(newItem);
-      setItemOnCart(true);
-      sessionStorage.setItem("cart", JSON.stringify(cart));
-    } else {
-      let newCart = [
-        {
-          id: game.id,
-          item: game.attributes.name
-        }
-      ];
-      setItemOnCart(true);
-      sessionStorage.setItem("cart", JSON.stringify(newCart));
-    }
+    let newItem = {
+      id: game.id,
+      item: game.attributes.name
+    };
+    cart.push(newItem);
+    setItemOnCart(true);
+    sessionStorage.setItem("cart", JSON.stringify(cart));
   }
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar itemsOnCart={cart.length}></Navbar>
       {
         game && (
           <div className="pt-5 pr-44 pb-20 pl-44 mt-24">
