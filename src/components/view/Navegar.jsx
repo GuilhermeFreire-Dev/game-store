@@ -9,26 +9,29 @@ function Navegar() {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  var request = false;
 
   useEffect(() => {
-    if (!genres.length) {
+    if (!genres.length && !request) {
       getGameGenres();
     }
     else {
-      if (!selectedGenre) {
-        setSelectedGenre(genres[0]);
-      }
+      setSelectedGenre(genres[0]);
     }
-  }, [genres, selectedGenre]);
+  }, [genres]);
 
-  async function getGameGenres() {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/game-genres?sort=genre`)
-    .then(response => {
+  function getGameGenres() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/genres`)
+    .then((response) => {
       setGenres(response.data.data);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-    });
+    })
+    .finally(() => {
+      request = false;
+    })
   }
 
   return (
@@ -38,7 +41,7 @@ function Navegar() {
         <div>
           <h3 className="text-2xl mb-5 font-bold">Navegar</h3>
           {
-            genres && (
+            genres.length > 0 && (
               <div className="flex flex-col p-5 w-80 bg-stone-950 rounded-xl">
                 {
                   genres.map(genre => {
@@ -46,7 +49,7 @@ function Navegar() {
                       selectedGenre && (
                         <span key={genre.id} onClick={() => setSelectedGenre(genre)}
                               className={genre.id === selectedGenre.id ? "bg-stone-500 mb-3 p-2 rounded-md cursor-pointer duration-300" : "bg-stone-800 mb-3 p-2 rounded-md cursor-pointer hover:bg-stone-700 duration-300"}>
-                          { genre.attributes.genre }
+                          { genre.genre }
                         </span>
                       )
                     );

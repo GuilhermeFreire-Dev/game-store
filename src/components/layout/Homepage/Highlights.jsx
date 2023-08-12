@@ -5,20 +5,25 @@ import CardH from "./CardH";
 function Highlights() {
 
   const [games, setGames] = useState([]);
+  var request = false;
 
   useEffect(() => {
-    if (!games.length) {
+    if (!request) {
       getHighlightsGames();
     }
   }, []);
 
-  async function getHighlightsGames() {
-    await axios.get(`${process.env.REACT_APP_API_URL}/api/games?filters[highlighted][$eq]=true`)
-    .then(response => {
+  function getHighlightsGames() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/games?filters[highlighted][$eq]=true`)
+    .then((response) => {
       setGames(response.data.data);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      request = false;
     })
   }
 

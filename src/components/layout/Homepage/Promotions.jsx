@@ -6,13 +6,16 @@ import { IoChevronForwardOutline } from "react-icons/io5";
 function Promotions() {
 
   const [games, setGames] = useState([]);
+  var request = false;
 
   useEffect(() => {
-    getPromotionsGames();
+    if (!request) {
+      getPromotionsGames();
+    }
   }, []);
 
   function getPromotionsGames() {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/games?pagination[pageSize]=10`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/games/promotions?size=10`)
     .then(response => {
       setGames(response.data.data);
     })

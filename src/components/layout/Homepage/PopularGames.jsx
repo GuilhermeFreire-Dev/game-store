@@ -6,18 +6,27 @@ import { IoChevronForwardOutline } from "react-icons/io5";
 function PopularGames() {
 
   const [games, setGames] = useState([]);
+  var request = false;
 
   useEffect(() => {
-    if (!games.length) {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/games?sort=popularity%3Adesc`)
-      .then(response => {
-        setGames(response.data.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
+    if (!request) {
+      getGames();
     }
   }, []);
+
+  function getGames() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/games/popular-games`)
+    .then((response) => {
+      setGames(response.data.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      request = false;
+    })
+  }
 
   return (
     games.length > 0 && (
