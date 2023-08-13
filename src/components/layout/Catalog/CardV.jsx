@@ -24,7 +24,7 @@ function CardV({game}) {
             <div className="flex justify-between items-center mt-1">
               <div className="mt-2">
                 {
-                  game.last_price && (
+                  game.last_price > game.current_price && (
                     <p className="text-xs text-stone-400 line-through">{ utils.getMonetaryFormat(game.last_price) }</p>
                   )
                 }
