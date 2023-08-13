@@ -6,7 +6,7 @@ function Media({medias}) {
   const [index, setIndex] = useState(1);
 
   function next() {
-    if (index < medias.data.length)
+    if (index < medias.length)
       setIndex(index + 1);
     else
       setIndex(1);
@@ -16,7 +16,7 @@ function Media({medias}) {
     if (index > 1)
       setIndex(index - 1);
     else
-      setIndex(medias.data.length);
+      setIndex(medias.length);
   }
 
   return (
@@ -29,9 +29,9 @@ function Media({medias}) {
           <IoChevronBack></IoChevronBack>
         </button>
         {
-          medias.data.map(function (media, id = 0) {
+          medias.map(function (media, id = 0) {
             return (
-              <img key={media.id} className={++id === index ? "rounded-xl w-full h-full" : "hidden" } src={media.attributes.media_url} alt={media.attributes.description}></img>
+              <img key={media.id} className={++id === index ? "rounded-xl w-full h-full" : "hidden" } src={media.media_url} alt={media.description}></img>
             );
           })
         }
@@ -44,7 +44,7 @@ function Media({medias}) {
       </div>
       <div className="w-full inline-flex justify-center p-3">
         {
-          medias.data.map(function (media, id = 0) {
+          medias.map(function (media, id = 0) {
             return (
               <span key={media.id} onClick={() => setIndex(id)} className={++id === index ? "block w-3 h-3 mr-1 ml-1 rounded-full cursor-pointer bg-stone-300" : "block w-3 h-3 mr-1 ml-1 rounded-full cursor-pointer bg-stone-600"}></span>
             );

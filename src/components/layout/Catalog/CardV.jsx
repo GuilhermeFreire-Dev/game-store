@@ -10,14 +10,14 @@ function CardV({game}) {
         <div className="flex flex-col bg-transparent rounded-xl w-52 p-3
                         h-full select-none cursor-pointer
                         hover:brightness-110">
-          <img className="h-60 m-1 rounded-lg" src={ game.attributes.image_url } alt={game.attributes.name} />
+          <img className="h-60 m-1 rounded-lg" src={ game.image_url } alt={game.name} />
           <div className="flex flex-col pl-1 pr-1 h-28">
-            <h5 className="font-bold">{ game.attributes.name }</h5>
+            <h5 className="font-bold">{ game.name }</h5>
             {
-              game.attributes.edition && (
+              game.edition && (
                 <span className="bg-stone-700 text-xs font-semibold text-center
                               pl-2 pr-2 pb-0.5 mt-2 w-2/3 rounded-lg">
-                  { game.attributes.edition }
+                  { game.edition }
                 </span>
               )
             }
@@ -28,14 +28,14 @@ function CardV({game}) {
                     <p className="text-xs text-stone-400 line-through">{ utils.getMonetaryFormat(game.attributes.last_price) }</p>
                   )
                 }
-                <p className="text-lg font-semibold">{ utils.getMonetaryFormat(game.attributes.current_price) }</p>
+                <p className="text-lg font-semibold">{ utils.getMonetaryFormat(game.current_price) }</p>
               </div>
               {
-                utils.getDiscount(game.attributes.current_price, game.attributes.last_price) > 0 && (
+                utils.getDiscount(game.current_price, game.last_price) > 0 && (
                   <span className="bg-gradient-to-r from-violet-600 to-blue-600
                                   w-12 p-0.5 rounded-lg text-center text-sm
                                   font-semibold">
-                    { `-${utils.getDiscount(game.attributes.current_price, game.attributes.last_price)}%` }
+                    { `-${utils.getDiscount(game.current_price, game.last_price)}%` }
                   </span>
                 )
               }

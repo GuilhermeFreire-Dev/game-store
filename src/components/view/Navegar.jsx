@@ -2,43 +2,67 @@ import axios from "axios";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import { useEffect, useState } from "react";
-import ListGamesFromGenre from "../layout/NavPage/ListGamesFromGenre";
+import ListGames from "../layout/Session/ListGames";
 
 
 function Navegar() {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [games, setGames] = useState([]);
+  var request = false;
 
   useEffect(() => {
-    if (!genres.length) {
+    if (!genres.length && !request) {
       getGameGenres();
     }
     else {
-      if (!selectedGenre) {
-        setSelectedGenre(genres[0]);
-      }
+      setSelectedGenre(genres[0]);
     }
-  }, [genres, selectedGenre]);
+  }, [genres]);
 
-  async function getGameGenres() {
-    axios.get(`${process.env.REACT_APP_API_URL}/api/game-genres?sort=genre`)
-    .then(response => {
+  useEffect(() => {
+    if (selectedGenre && !request) {
+      getGamesByGenre();
+    }
+  }, [selectedGenre]);
+
+  function getGameGenres() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/genres`)
+    .then((response) => {
       setGenres(response.data.data);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-    });
+    })
+    .finally(() => {
+      request = false;
+    })
+  }
+
+  function getGamesByGenre() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/genre/${selectedGenre.id}/games`)
+    .then((response) => {
+      setGames(response.data.data.games);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      request = false;
+    })
   }
 
   return (
     <>
       <Navbar></Navbar>
-      <div className=" flex pt-5 pr-44 pb-10 pl-44 mt-24">
+      <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
         <div>
           <h3 className="text-2xl mb-5 font-bold">Navegar</h3>
           {
-            genres && (
+            genres.length > 0 && (
               <div className="flex flex-col p-5 w-80 bg-stone-950 rounded-xl">
                 {
                   genres.map(genre => {
@@ -46,7 +70,7 @@ function Navegar() {
                       selectedGenre && (
                         <span key={genre.id} onClick={() => setSelectedGenre(genre)}
                               className={genre.id === selectedGenre.id ? "bg-stone-500 mb-3 p-2 rounded-md cursor-pointer duration-300" : "bg-stone-800 mb-3 p-2 rounded-md cursor-pointer hover:bg-stone-700 duration-300"}>
-                          { genre.attributes.genre }
+                          { genre.genre }
                         </span>
                       )
                     );
@@ -56,9 +80,14 @@ function Navegar() {
             )
           }
         </div>
-        <div className="pt-10 pb-10 pl-10">
-          <ListGamesFromGenre selectedGenre={selectedGenre}></ListGamesFromGenre>
-        </div>
+        {
+          selectedGenre && (
+            <div className="pt-10 pb-10 pl-10">
+              <h5 className="text-xl mb-3 ml-3 font-bold">{ selectedGenre.genre }</h5>
+              <ListGames games={games}></ListGames>
+            </div>
+          )
+        }
       </div>
       <Footer></Footer>
     </>

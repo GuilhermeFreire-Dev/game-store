@@ -7,19 +7,19 @@ function Specs({specs, nvl}) {
       <ul>
         <li className="mb-2">
           <span>Sistema operacional: </span>
-          <span>{ specs.attributes.so }</span>
+          <span>{ specs.so }</span>
         </li>
         <li className="mb-2">
           <span>Processador: </span>
-          <span>{ specs.attributes.processor }</span>
+          <span>{ specs.processor }</span>
         </li>
         <li className="mb-2">
           <span>Memória: </span>
-          <span>{ specs.attributes.memory }</span>
+          <span>{ specs.memory }</span>
         </li>
         <li className="mb-2">
           <span>Placa de vídeo: </span>
-          <span>{ specs.attributes.graphics }</span>
+          <span>{ specs.graphics }</span>
         </li>
       </ul>
     </div>

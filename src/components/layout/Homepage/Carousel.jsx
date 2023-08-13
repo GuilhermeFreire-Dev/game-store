@@ -5,21 +5,26 @@ function Carousel() {
 
   const [index, setIndex] = useState(1);
   const [carousel, setCarousel] = useState(null);
+  var request = false;
 
   useEffect(() => {
-    getCarousel();
+    if (!request) {
+      getCarousel();
+    }
   }, []);
 
-  async function getCarousel() {
-    if (!carousel) {
-      await axios.get(`${process.env.REACT_APP_API_URL}/api/game-carousels/1?populate=*`)
-      .then(response => {
-        setCarousel(response.data.data.attributes.games.data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-    }
+  function getCarousel() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/game-carousels/1?populate=*`)
+    .then((response) => {
+      setCarousel(response.data.data.attributes.games.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      request = false;
+    })
   } 
 
   function sideTo(index) {
