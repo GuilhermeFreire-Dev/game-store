@@ -2,13 +2,14 @@ import axios from "axios";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import { useEffect, useState } from "react";
-import ListGamesFromGenre from "../layout/NavPage/ListGamesFromGenre";
+import ListGames from "../layout/Session/ListGames";
 
 
 function Navegar() {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [games, setGames] = useState([]);
   var request = false;
 
   useEffect(() => {
@@ -19,6 +20,12 @@ function Navegar() {
       setSelectedGenre(genres[0]);
     }
   }, [genres]);
+
+  useEffect(() => {
+    if (selectedGenre && !request) {
+      getGamesByGenre();
+    }
+  }, [selectedGenre]);
 
   function getGameGenres() {
     request = true;
@@ -34,10 +41,24 @@ function Navegar() {
     })
   }
 
+  function getGamesByGenre() {
+    request = true;
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/genre/${selectedGenre.id}/games`)
+    .then((response) => {
+      setGames(response.data.data.games);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      request = false;
+    })
+  }
+
   return (
     <>
       <Navbar></Navbar>
-      <div className=" flex pt-5 pr-44 pb-10 pl-44 mt-24">
+      <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
         <div>
           <h3 className="text-2xl mb-5 font-bold">Navegar</h3>
           {
@@ -59,9 +80,14 @@ function Navegar() {
             )
           }
         </div>
-        <div className="pt-10 pb-10 pl-10">
-          <ListGamesFromGenre selectedGenre={selectedGenre}></ListGamesFromGenre>
-        </div>
+        {
+          selectedGenre && (
+            <div className="pt-10 pb-10 pl-10">
+              <h5 className="text-xl mb-3 ml-3 font-bold">{ selectedGenre.genre }</h5>
+              <ListGames games={games}></ListGames>
+            </div>
+          )
+        }
       </div>
       <Footer></Footer>
     </>

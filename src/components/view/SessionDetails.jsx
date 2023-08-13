@@ -2,25 +2,27 @@ import { useEffect, useState } from "react";
 import Footer from "../layout/Footer/Footer";
 import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
-import CardV from "../layout/Catalog/CardV";
+import ListGames from "../layout/Session/ListGames";
+import Filter from "../layout/Session/Filter";
 
 
 function SessionDetails({sessionName, contentUrl}) {
 
-  const [games, setGames] = useState(null);
+  const [games, setGames] = useState([]);
+  const [genres, setGenres] = useState([]);
   var request = false;
 
   useEffect(() => {
     if (!request) {
-      getGames();
+      getGameGenres();
     }
-  },[]);
+  }, []);
 
-  function getGames() {
+  function getGameGenres() {
     request = true;
-    axios.get(`${process.env.REACT_APP_API_URL}${contentUrl}`)
+    axios.get(`${process.env.REACT_APP_API_URL}/api/v1/genres`)
     .then((response) => {
-      setGames(response.data.data);
+      setGenres(response.data.data);
     })
     .catch((error) => {
       console.log(error);
@@ -30,26 +32,30 @@ function SessionDetails({sessionName, contentUrl}) {
     })
   }
 
+  function componentListGames() {
+    if (games.length) {
+      return (<ListGames games={games}></ListGames>);
+    }
+    else {
+      return (
+        <div className="w-full text-center">
+          <h3 className="font-bold text-2xl mb-3 mt-20">{ `Nenhum resultado encontrado :(` }</h3>
+          <p>Tente mudar os filtros de busca para encontrar resultados...</p>
+        </div>
+      )
+    }
+  }
+
   return (
     <>
       <Navbar></Navbar>
-      <div className=" flex pt-5 pr-40 pb-10 pl-44 mt-24">
+      <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
         <div>
           <h3 className="text-2xl mb-5 font-bold">{ sessionName }</h3>
-          <div className="flex flex-col p-5 mr-5 w-80 bg-stone-950 rounded-xl">
-            <p>Filtros</p>
-          </div>
+          <Filter filteredResults={setGames} genres={genres}></Filter>
         </div>
-        <div className="flex flex-wrap h-min items-start">
-          { 
-            games && (
-              games.map(game => {
-                return (
-                  <CardV key={game.id} game={game}></CardV>
-                )
-              })
-            )
-          }
+        <div className="pt-10 pb-10 pl-10 w-full">
+          { componentListGames() }
         </div>
       </div>
       <Footer></Footer>

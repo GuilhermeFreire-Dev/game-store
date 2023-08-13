@@ -10,17 +10,21 @@ function Promotions() {
 
   useEffect(() => {
     if (!request) {
-      getPromotionsGames();
+      getPromotions();
     }
   }, []);
 
-  function getPromotionsGames() {
+  function getPromotions() {
+    request = true;
     axios.get(`${process.env.REACT_APP_API_URL}/api/v1/games/promotions?size=10`)
-    .then(response => {
+    .then((response) => {
       setGames(response.data.data);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
+    })
+    .finally(() => {
+      request = false;
     })
   }
 
@@ -29,7 +33,9 @@ function Promotions() {
       <div className="inline-flex items-center 
                       mb-3 ml-10">
         <h3 className="text-2xl font-bold">Promoções</h3>
-        <IoChevronForwardOutline className="ml-2 mt-1 cursor-pointer"></IoChevronForwardOutline>
+        <a href="/promocoes">
+          <IoChevronForwardOutline className="ml-2 mt-1 cursor-pointer"></IoChevronForwardOutline>
+        </a>
       </div>
       <div className="flex justify-around flex-wrap 
                       w-fit overflow-y-hidden 
