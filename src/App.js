@@ -27,6 +27,7 @@ function App() {
             <Route path='/game/:id' element={<GameView context={context}></GameView>}></Route>
             <Route path='/navegar' element={<NavegarView></NavegarView>}></Route>
             <Route path='/carrinho' element={<CartView cart={context.cart}></CartView>}></Route>
+            <Route path='/promocoes' element={<SessionDetails sessionName={"Promoções"}></SessionDetails>}></Route>
             <Route path='*' element={<NoContentView></NoContentView>}></Route>
           </Route>
         </Routes>

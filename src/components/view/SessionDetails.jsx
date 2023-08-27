@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import Footer from "../layout/Footer/Footer";
-import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
 import ListGames from "../layout/Session/ListGames";
 import Filter from "../layout/Session/Filter";
@@ -47,19 +45,15 @@ function SessionDetails({sessionName, contentUrl}) {
   }
 
   return (
-    <>
-      <Navbar></Navbar>
-      <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
-        <div>
-          <h3 className="text-2xl mb-5 font-bold">{ sessionName }</h3>
-          <Filter filteredResults={setGames} genres={genres}></Filter>
-        </div>
-        <div className="pt-10 pb-10 pl-10 w-full">
-          { componentListGames() }
-        </div>
+    <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
+      <div>
+        <h3 className="text-2xl mb-5 font-bold">{ sessionName }</h3>
+        <Filter filteredResults={setGames} genres={genres}></Filter>
       </div>
-      <Footer></Footer>
-    </>
+      <div className="pt-10 pb-10 pl-10 w-full">
+        { componentListGames() }
+      </div>
+    </div>
   );
 }
 
