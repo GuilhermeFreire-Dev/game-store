@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import CardV from "../Catalog/CardV";
 import { IoChevronForwardOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function Promotions() {
 
@@ -30,16 +31,13 @@ function Promotions() {
 
   return (
     <>
-      <div className="inline-flex items-center 
-                      mb-3 ml-10">
+      <div className="inline-flex items-center mb-3 ml-10">
         <h3 className="text-2xl font-bold">Promoções</h3>
-        <a href="/promocoes">
+        <Link to={"/promocoes"}>
           <IoChevronForwardOutline className="ml-2 mt-1 cursor-pointer"></IoChevronForwardOutline>
-        </a>
+        </Link>
       </div>
-      <div className="flex justify-around flex-wrap 
-                      w-fit overflow-y-hidden 
-                      m-auto mb-5 pb-10 max-h-96">
+      <div className="flex justify-around flex-wrap w-fit overflow-y-hidden m-auto mb-5 pb-10 max-h-96">
         {
           games.map(game => {
             return (
