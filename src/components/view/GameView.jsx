@@ -47,7 +47,6 @@ function Game({context}) {
 
   function addToCart() {
     context.cart.addToCart(game);
-    setItemOnCart(true);
   }
 
   return (

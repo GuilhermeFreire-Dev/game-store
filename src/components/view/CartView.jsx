@@ -17,7 +17,6 @@ function CartView({cart}) {
       setCartItems(cart.getCart.items);
     }
     calculateCheckout();
-    console.log("mundaça em games");
   }, [games]);
 
   useEffect(() => {
@@ -46,11 +45,9 @@ function CartView({cart}) {
     else {
       setGames([]);
     }
-    // calculateCheckout();
   }
 
   function calculateCheckout() {
-    console.log("calculando checkout");
     let items = 0;
     let subtotal = 0;
 
@@ -72,7 +69,7 @@ function CartView({cart}) {
 
   async function removeItemCart(item) {
     await cart.removeItemOnCart(item);
-    setCartItems(await cart.getCart.items);
+    // setCartItems(await cart.getCart.items);
   }
 
   return (

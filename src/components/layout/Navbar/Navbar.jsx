@@ -1,8 +1,17 @@
 import { IoPersonCircleSharp } from "react-icons/io5";
 import SearchBar from "./SearchBar";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-function Navbar({cart}) {
+function Navbar({context}) {
+
+  const [qtdItems, setQtdItems] = useState(0);
+
+  useEffect(() => {
+    if (context.cart) {
+      setQtdItems(context.cart.getCart.items.length);
+    }
+  }, []);
 
   return (
     <header className='bg-stone-900 flex items-center justify-between pl-20 pr-20 h-24 w-full z-10 fixed top-0'>
@@ -19,8 +28,8 @@ function Navbar({cart}) {
       <div>
         <Link className="flex ml-1 pt-1 pr-3 pb-2 pl-3 rounded-2xl duration-300 hover:bg-stone-600" to={"/carrinho"}>Carrinho
           {
-            cart && cart.items.length > 0 && (
-              <p className="bg-white text-stone-900 text-center text-xs font-bold rounded-full w-4 h-4 pb-2 ml-1">{ cart.items.length }</p>
+            qtdItems > 0 && (
+              <p className="bg-white text-stone-900 text-center text-xs font-bold rounded-full w-4 h-4 pb-2 ml-1">{ qtdItems }</p>
             )
           }
         </Link>

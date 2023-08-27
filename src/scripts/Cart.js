@@ -24,7 +24,6 @@ class Cart {
   }
 
   async addToCart(item) {
-    console.log(item.id);
     if (item && !await this.checkItemOnCart(item)) {
       let newItem = {
         id: item.id,
@@ -33,6 +32,7 @@ class Cart {
       this.cart.update_at = new Date();
       await this.cart.items.push(newItem);
       sessionStorage.setItem("cart", JSON.stringify(this.cart));
+      window.location.reload();
     }
   }
 
@@ -53,6 +53,7 @@ class Cart {
     this.cart.update_at = new Date();
     this.cart.items = newCart;
     sessionStorage.setItem("cart", JSON.stringify(this.cart));
+    window.location.reload();
   }
 }
 

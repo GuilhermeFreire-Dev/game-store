@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeView from './components/view/HomeView';
 import GameView from './components/view/GameView';
 import NavegarView from './components/view/NavegarView';
+import NoContentView from './components/view/NoContentView';
 import Cart from './scripts/Cart';
 import { useState } from 'react';
 import Layout from './components/layout/Layout';
@@ -25,6 +26,7 @@ function App() {
             <Route path='/game/:id' element={<GameView context={context}></GameView>}></Route>
             <Route path='/navegar' element={<NavegarView></NavegarView>}></Route>
             <Route path='/carrinho' element={<CartView cart={context.cart}></CartView>}></Route>
+            <Route path='*' element={<NoContentView></NoContentView>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -5,7 +5,7 @@ import Navbar from "./Navbar/Navbar";
 function Layout({context}) {
   return (
     <>
-      <Navbar cart={context.cart.getCart}></Navbar>
+      <Navbar context={context}></Navbar>
         <Outlet></Outlet>
       <Footer></Footer>
     </>
