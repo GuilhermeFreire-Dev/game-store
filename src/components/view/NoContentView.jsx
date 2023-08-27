@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 function NoContent() {
   return (
@@ -7,7 +8,7 @@ function NoContent() {
         <h2 className="font-semibold text-2xl mb-3" >{ "Não encontramos a página que você procurava :(" }</h2>
       </div>
       <p className="text-stone-400 mb-8">{ "404 Not Found" }</p>
-      <a className="bg-stone-700 pt-3 pr-5 pb-3 pl-5 rounded-xl hover:bg-stone-500" href="/">{ "Voltar a página inicial" }</a>
+      <Link className="bg-stone-700 pt-3 pr-5 pb-3 pl-5 rounded-xl hover:bg-stone-500" to={"/"}>Voltar a página inicial</Link>
     </div>
   );
 }

@@ -1,9 +1,6 @@
 import axios from "axios";
-import Footer from "../layout/Footer/Footer";
-import Navbar from "../layout/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import ListGames from "../layout/Session/ListGames";
-
 
 function Navegar() {
 
@@ -57,8 +54,7 @@ function Navegar() {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className=" flex pt-5 pr-40 pb-10 pl-40 mt-24">
+      <div className=" flex pt-5 pr-44 pb-10 pl-44 mt-24">
         <div>
           <h3 className="text-2xl mb-5 font-bold">Navegar</h3>
           {
@@ -89,7 +85,6 @@ function Navegar() {
           )
         }
       </div>
-      <Footer></Footer>
     </>
   );
 }

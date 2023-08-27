@@ -1,43 +1,49 @@
 import { useEffect, useState } from "react";
 import CardGameResume from "../layout/Cart/CardGameResume";
-import Footer from "../layout/Footer/Footer";
-import Navbar from "../layout/Navbar/Navbar";
 import axios from "axios";
 import Utils from "../../scripts/Utils";
+import { Link } from "react-router-dom";
 
-function Cart() {
+function CartView({cart}) {
 
   const [cartItems, setCartItems] = useState([]);
   const [checkout, setCheckout] = useState(null);
+  const [games, setGames] = useState([]);
   const utils = new Utils();
-
+  var request = false;
+  
   useEffect(() => {
-    if (!cartItems.length) {
-      getCartItems();
+    if (cart && !cartItems.length && !request) {
+      setCartItems(cart.getCart.items);
     }
     calculateCheckout();
+  }, [games]);
+
+  useEffect(() => {
+    getGames();
   }, [cartItems]);
 
-  function getCartItems() {
-    let sessionCart = sessionStorage.getItem("cart");
-    if (sessionCart) {
-      let cart = JSON.parse(sessionCart);
-      if (cart.length) {
-        let url = `${process.env.REACT_APP_API_URL}/api/games?`;
-        let index = 0;
-        cart.forEach(function (cartItem) {
-          url = url.concat(index ? "&":"", `filters[id][$eq][${index}]=${cartItem.id}`)
-          index++;
-        })
+  async function getGames() {
+    if (cartItems.length) {
+      let paramGames = "?games=";
+      cartItems.forEach((game) => {
+        paramGames = paramGames.concat(`${game.id}+`);
+      });
 
-        axios.get(url)
-        .then(response => {
-          setCartItems(response.data.data);
-        })
-        .catch(error => {
-          console.log(error)
-        })
-      }
+      request = true;
+      axios.get(`${process.env.REACT_APP_API_URL}/api/v1/games${paramGames}`)
+      .then((response) => {
+        setGames(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        request = false;
+      })
+    }
+    else {
+      setGames([]);
     }
   }
 
@@ -45,10 +51,10 @@ function Cart() {
     let items = 0;
     let subtotal = 0;
 
-    if (cartItems.length) {
-      cartItems.forEach(function(item) {
-        items += item.attributes.last_price > item.attributes.current_price ? item.attributes.last_price : item.attributes.current_price;
-        subtotal += item.attributes.current_price;
+    if (games.length) {
+      games.forEach((game) => {
+        items += game.last_price > game.current_price ? game.last_price : game.current_price;
+        subtotal += game.current_price;
       });
 
       setCheckout({
@@ -61,39 +67,23 @@ function Cart() {
     }
   }
 
-  const removeItemCart = (id) => {
-    if (cartItems.length) {
-      let updatedCartItems = cartItems.filter(function(item) {
-        return item.id != id;
-      });
-      let sessionCart = sessionStorage.getItem("cart");
-      if (sessionCart) {
-        let cart = JSON.parse(sessionCart);
-        if (cart.length) {
-          let updatedSessionCart = cart.filter(function(item) {
-            return item.id != id;
-          })
-          sessionStorage.setItem("cart", JSON.stringify(updatedSessionCart));
-        }
-      }
-      setCartItems(updatedCartItems);
-      calculateCheckout();
-    }
+  async function removeItemCart(item) {
+    await cart.removeItemOnCart(item);
+    // setCartItems(await cart.getCart.items);
   }
 
   return (
     <>
-      <Navbar itemsOnCart={cartItems.length}></Navbar>
       <div className="pl-44 pr-44 pt-5 pb-10 mt-20">
         <h3 className="text-2xl ml-36 font-bold mb-7">Meu carrinho</h3>
         {
-          checkout && cartItems.length && (
+          checkout && games.length > 0 && (
             <div className="flex">
               <div className="w-3/4 mr-5">
                 {
-                  cartItems.map(item => {
+                  games.map(game => {
                     return (
-                      <CardGameResume key={item.id} game={item} removeItemCart={removeItemCart}></CardGameResume>
+                      <CardGameResume key={game.id} game={game} removeItemCart={removeItemCart}></CardGameResume>
                     )
                   })
                 }
@@ -118,14 +108,13 @@ function Cart() {
           !checkout && (
             <div className="w-1/2 m-auto mt-16 mb-20 text-center">
               <h3 className="text-3xl font-bold mb-10">{ "Seu carrinho está vazio :(" }</h3>
-              <a href="/" className="bg-blue-600 p-3 pt-2 rounded-lg hover:bg-blue-500">Continuar comprando</a>
+              <Link className="bg-blue-600 p-3 pt-2 rounded-lg hover:bg-blue-500" to={"/"}>Continuar comprando</Link>
             </div>
           )
         }
       </div>
-      <Footer></Footer>
     </>
   );
 }
 
-export default Cart;
+export default CartView;

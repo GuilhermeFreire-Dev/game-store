@@ -31,14 +31,11 @@ function PopularGames() {
   return (
     games.length > 0 && (
       <>
-        <div className="inline-flex items-center 
-                        mb-3 ml-10">
+        <div className="inline-flex items-center mb-3 ml-10">
           <h3 className="text-2xl font-bold">Mais populares</h3>
           <IoChevronForwardOutline className="ml-2 mt-1 cursor-pointer"></IoChevronForwardOutline>
         </div>
-        <div className="flex justify-around flex-wrap 
-                      w-fit overflow-y-hidden 
-                      m-auto mb-5 pb-10 max-h-96">
+        <div className="flex justify-around flex-wrap w-fit overflow-y-hidden m-auto mb-5 pb-10 max-h-96">
           {
             games.map(game => ((
               <CardV key={game.id} game={game}></CardV>

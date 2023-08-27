@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom";
-import Footer from "../layout/Footer/Footer";
-import Navbar from "../layout/Navbar/Navbar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Utils from "../../scripts/Utils";
@@ -10,7 +8,7 @@ import Specs from "../layout/Game/Specs";
 import SimilarGames from "../layout/Game/SimilarGames";
 import { MdAddShoppingCart, MdCheckCircle } from "react-icons/md";
 
-function Game() {
+function Game({context}) {
 
   const params = useParams();
   const [game, setGame] = useState(null);
@@ -19,12 +17,11 @@ function Game() {
   const [minimumSpec, setMinimumSpec] = useState(null);
   const [recommendedSpec, setRecommendedSpec] = useState(null);
   const [itemOnCart, setItemOnCart] = useState(false);
-  const [cart, setCart] = useState([]);
   const utils = new Utils();
 
   useEffect(() => {
-    if (params && !game) {
-      axios.get(`${process.env.REACT_APP_API_URL}/api/games/${params.id}?populate=*`)
+    if (params) {
+      axios.get(`${process.env.REACT_APP_API_URL}/api/v1/game/${params.id}`)
       .then(response => {
         setGame(response.data);
         setMedias(response.data.game_medias);
@@ -35,44 +32,25 @@ function Game() {
       .catch(error => {
         console.log(error);
       })
-      getCart();
     }
-  }, [cart]);
+  }, []);
 
   useEffect(() => {
     checkItemOnCart();
   }, [game]);
-  
-  function getCart() {
-    let sessionCart = sessionStorage.getItem("cart");
-    if (sessionCart) {
-      setCart(JSON.parse(sessionCart));
-    }
-  }
 
-  function checkItemOnCart() {
-    if (cart.length && game) {
-      cart.forEach(function (cartItem) {
-        if (cartItem.id === game.id) {
-          setItemOnCart(true);
-        }
-      });
+  async function checkItemOnCart() {
+    if (context.cart && game) {
+      setItemOnCart(await context.cart.checkItemOnCart(game));
     }
   }
 
   function addToCart() {
-    let newItem = {
-      id: game.id,
-      item: game.attributes.name
-    };
-    cart.push(newItem);
-    setItemOnCart(true);
-    sessionStorage.setItem("cart", JSON.stringify(cart));
+    context.cart.addToCart(game);
   }
 
   return (
     <div>
-      <Navbar itemsOnCart={cart.length}></Navbar>
       {
         game && (
           <div className="pt-5 pr-44 pb-20 pl-44 mt-24">
@@ -102,9 +80,7 @@ function Game() {
                 <div>
                   {
                     game.edition && (
-                      <span className="bg-stone-700 rounded-md
-                                  text-xs font-medium
-                                  pt-1 pr-2 pb-1 pl-2">
+                      <span className="bg-stone-700 rounded-md text-xs font-medium pt-1 pr-2 pb-1 pl-2">
                         { game.edition }
                       </span>
                     )
@@ -112,16 +88,10 @@ function Game() {
                   {
                     !itemOnCart && (
                       <>
-                        <button type="button" className="bg-blue-600
-                                      pt-2 pb-2 mb-2 mt-2 w-full
-                                      rounded-lg
-                                      hover:bg-blue-500">
-                            COMPRAR
+                        <button type="button" className="bg-blue-600 pt-2 pb-2 mb-2 mt-2 w-full rounded-lg hover:bg-blue-500">
+                          COMPRAR
                         </button>
-                        <button type="button" onClick={addToCart} className="flex items-center
-                                          border-2 border-solid border-white rounded-lg
-                                          pt-2 pr-8 pb-2 pl-8
-                                          hover:bg-white hover:bg-opacity-10">
+                        <button type="button" onClick={addToCart} className="flex items-center border-2 border-solid border-white rounded-lg pt-2 pr-8 pb-2 pl-8 hover:bg-white hover:bg-opacity-10">
                           <MdAddShoppingCart className="w-5 h-5 mr-2 ml-2"></MdAddShoppingCart>
                           Adicionar ao carrinho
                         </button>
@@ -145,17 +115,14 @@ function Game() {
                 <p>{ game.description }</p>
                 <div className="flex items-center mt-10 mb-5">
                   <Classification classification={ game.classification } ></Classification>
-                  <span className="border-l border-r 
-                                  pl-5 pr-5">
+                  <span className="border-l border-r pl-5 pr-5">
                     <p className="mb-2">Gêneros:</p>
                     <span className="flex flex-wrap">
                       {
                         genres && (
                           genres.map(genre => {
                             return (
-                              <p key={genre.id} className="bg-stone-800 rounded-lg 
-                                    pr-3 pb-0.5 pl-3 mr-1 mb-1
-                                    flex-wrap">{ genre.genre }</p>
+                              <p key={genre.id} className="bg-stone-800 rounded-lg pr-3 pb-0.5 pl-3 mr-1 mb-1 flex-wrap">{ genre.genre }</p>
                             );
                           })
                         )
@@ -173,15 +140,12 @@ function Game() {
                 <p className="border-b mb-2 pb-1">Publisher: { game.publisher }</p>
                 <p className="border-b mb-2 pb-1">Lançamento: { utils.getFormattedDate(game.launch_date) }</p>
                 <p className="flex border-b mb-2 pb-1">Plataforma:
-                  <span className="bg-stone-700 rounded-xl 
-                                    pr-2 pb-0.5 pl-2 mr-1 mb-1 ml-1">{ game.platform }</span>
+                  <span className="bg-stone-700 rounded-xl pr-2 pb-0.5 pl-2 mr-1 mb-1 ml-1">{ game.platform }</span>
                 </p>
                 <p className="border-b mb-2 pb-1">Tamanho: { game.size + game.measurement }</p>
               </div>
             </div>
-            <div className="bg-stone-800 flex 
-                            w-2/3 mt-10 pt-4 pb-4
-                            rounded-xl text-sm font-medium">
+            <div className="bg-stone-800 flex w-2/3 mt-10 pt-4 pb-4 rounded-xl text-sm font-medium">
               { minimumSpec && ( <Specs specs={minimumSpec} nvl={"mínimos"}></Specs> ) }
               { recommendedSpec && ( <Specs specs={recommendedSpec} nvl={"recomendados"}></Specs> ) }
             </div>
@@ -189,7 +153,6 @@ function Game() {
           </div>
         )
       }
-      <Footer></Footer>
     </div>
   );
 }
