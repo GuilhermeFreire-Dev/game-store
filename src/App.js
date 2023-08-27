@@ -9,6 +9,7 @@ import Cart from './scripts/Cart';
 import { useState } from 'react';
 import Layout from './components/layout/Layout';
 import CartView from './components/view/CartView';
+import SessionDetails from './components/view/SessionDetails';
 
 function App() {
 
