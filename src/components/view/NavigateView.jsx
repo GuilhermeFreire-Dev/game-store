@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ListGames from "../layout/Session/ListGames";
 
-function Navegar() {
+function Navigate() {
 
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(null);
@@ -89,4 +89,4 @@ function Navegar() {
   );
 }
 
-export default Navegar;
+export default Navigate;

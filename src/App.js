@@ -3,13 +3,13 @@ import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomeView from './components/view/HomeView';
 import GameView from './components/view/GameView';
-import NavegarView from './components/view/NavegarView';
+import NavigateView from './components/view/NavigateView';
 import NoContentView from './components/view/NoContentView';
 import Cart from './scripts/Cart';
 import { useState } from 'react';
 import Layout from './components/layout/Layout';
 import CartView from './components/view/CartView';
-import SessionDetails from './components/view/SessionDetails';
+import SessionDetailsView from './components/view/SessionDetailsView';
 
 function App() {
 
@@ -25,9 +25,9 @@ function App() {
           <Route path='/' element={<Layout context={context}></Layout>}>
             <Route index element={<HomeView></HomeView>}></Route>
             <Route path='/game/:id' element={<GameView context={context}></GameView>}></Route>
-            <Route path='/navegar' element={<NavegarView></NavegarView>}></Route>
+            <Route path='/navegar' element={<NavigateView></NavigateView>}></Route>
             <Route path='/carrinho' element={<CartView cart={context.cart}></CartView>}></Route>
-            <Route path='/promocoes' element={<SessionDetails sessionName={"Promoções"}></SessionDetails>}></Route>
+            <Route path='/promocoes' element={<SessionDetailsView sessionName={"Promoções"}></SessionDetailsView>}></Route>
             <Route path='*' element={<NoContentView></NoContentView>}></Route>
           </Route>
         </Routes>
