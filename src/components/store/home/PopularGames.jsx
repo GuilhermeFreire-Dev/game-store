@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import CardV from "../Catalog/CardV";
+import CardV from "../layout/CardV";
 import { IoChevronForwardOutline } from "react-icons/io5";
 
 function PopularGames() {

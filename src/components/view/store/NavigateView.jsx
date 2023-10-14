@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ListGames from "../layout/Session/ListGames";
+import ListGames from "../../store/session/ListGames";
 
 function Navigate() {
 

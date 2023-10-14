@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CardV from "../Catalog/CardV";
+import CardV from "../layout/CardV";
 import axios from "axios";
 
 

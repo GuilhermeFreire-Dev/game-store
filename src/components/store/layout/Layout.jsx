@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Footer from "./Footer/Footer";
-import Navbar from "./Navbar/Navbar";
-import Chat from "./Chat/Chat";
+import Footer from "./footer/Footer";
+import Navbar from "./navbar/Navbar";
+import Chat from "../chat/Chat";
 
 function Layout({context}) {
   return (

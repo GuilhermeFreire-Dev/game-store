@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ListGames from "../layout/Session/ListGames";
-import Filter from "../layout/Session/Filter";
+import ListGames from "../../store/session/ListGames";
+import Filter from "../../store/session/Filter";
 
 
 function SessionDetails({sessionName, contentUrl}) {

@@ -1,4 +1,4 @@
-import CardV from "../Catalog/CardV";
+import CardV from "../layout/CardV";
 
 
 function ListGames({games}) {

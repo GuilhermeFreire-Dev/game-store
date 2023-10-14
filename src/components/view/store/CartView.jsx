@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import CardGameResume from "../layout/Cart/CardGameResume";
+import CardGameResume from "../../store/checkout/CardGameResume";
 import axios from "axios";
-import Utils from "../../scripts/Utils";
+import Utils from "../../../scripts/Utils";
 import { Link } from "react-router-dom";
 
 function CartView({cart}) {

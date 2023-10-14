@@ -1,7 +1,7 @@
-import Carousel from "../layout/Homepage/Carousel";
-import PopularGames from "../layout/Homepage/PopularGames";
-import Highlights from "../layout/Homepage/Highlights";
-import Promotions from "../layout/Homepage/Promotions";
+import Carousel from "../../store/home/Carousel";
+import PopularGames from "../../store/home/PopularGames";
+import Highlights from "../../store/home/Highlights";
+import Promotions from "../../store/home/Promotions";
 
 function Home() {
 

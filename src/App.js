@@ -1,15 +1,16 @@
 import './assets/css/App.css';
 import './index.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import HomeView from './components/view/HomeView';
-import GameView from './components/view/GameView';
-import NavigateView from './components/view/NavigateView';
+import HomeView from './components/view/store/HomeView';
+import GameView from './components/view/store/GameView';
+import NavigateView from './components/view/store/NavigateView';
 import NoContentView from './components/view/NoContentView';
 import Cart from './scripts/Cart';
 import { useState } from 'react';
-import Layout from './components/layout/Layout';
-import CartView from './components/view/CartView';
-import SessionDetailsView from './components/view/SessionDetailsView';
+import Layout from './components/store/layout/Layout';
+import CartView from './components/view/store/CartView';
+import SessionDetailsView from './components/view/store/SessionDetailsView';
+import AdminView from './components/view/admin/AdminView';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
             <Route path='/navegar' element={<NavigateView></NavigateView>}></Route>
             <Route path='/carrinho' element={<CartView cart={context.cart}></CartView>}></Route>
             <Route path='/promocoes' element={<SessionDetailsView sessionName={"Promoções"}></SessionDetailsView>}></Route>
+            <Route path='/admin' element={<AdminView></AdminView>}></Route>
             <Route path='*' element={<NoContentView></NoContentView>}></Route>
           </Route>
         </Routes>

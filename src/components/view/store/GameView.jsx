@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Utils from "../../scripts/Utils";
-import Classification from "../layout/Game/Classification";
-import Media from "../layout/Game/Media";
-import Specs from "../layout/Game/Specs";
-import SimilarGames from "../layout/Game/SimilarGames";
+import Utils from "../../../scripts/Utils";
+import Classification from "../../store/game/Classification";
+import Media from "../../store/game/Media";
+import Specs from "../../store/game/Specs";
+import SimilarGames from "../../store/game/SimilarGames";
 import { MdAddShoppingCart, MdCheckCircle } from "react-icons/md";
 
 function Game({context}) {
