@@ -11,6 +11,9 @@ import Layout from './components/store/layout/Layout';
 import CartView from './components/view/store/CartView';
 import SessionDetailsView from './components/view/store/SessionDetailsView';
 import AdminView from './components/view/admin/AdminView';
+import AdminLayout from './components/admin/layout/AdminLayout';
+import DashboardView from './components/view/admin/DashboardView';
+import ChatsView from './components/view/admin/ChatsView';
 
 function App() {
 
@@ -20,7 +23,7 @@ function App() {
   });
 
   return (
-    <div className="App bg-stone-900 text-white">
+    <div className="App bg-stone-900 text-white min-h-screen">
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout context={context}></Layout>}>
@@ -29,8 +32,12 @@ function App() {
             <Route path='/navegar' element={<NavigateView></NavigateView>}></Route>
             <Route path='/carrinho' element={<CartView cart={context.cart}></CartView>}></Route>
             <Route path='/promocoes' element={<SessionDetailsView sessionName={"Promoções"}></SessionDetailsView>}></Route>
-            <Route path='/admin' element={<AdminView></AdminView>}></Route>
             <Route path='*' element={<NoContentView></NoContentView>}></Route>
+          </Route>
+          <Route path='/admin' element={<AdminLayout></AdminLayout>}>
+            <Route index element={<AdminView></AdminView>}></Route>
+            <Route path='/admin/dashboard' element={<DashboardView></DashboardView>}></Route>
+            <Route path='/admin/chats' element={<ChatsView></ChatsView>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
