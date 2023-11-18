@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Footer from "./footer/Footer";
 import Navbar from "./navbar/Navbar";
-import Chat from "../chat/Chat";
+import StoreChat from "../chat/StoreChat";
 
 function Layout({context}) {
   return (
@@ -9,7 +9,7 @@ function Layout({context}) {
       <Navbar context={context}></Navbar>
         <Outlet></Outlet>
       <Footer></Footer>
-      <Chat></Chat>
+      <StoreChat></StoreChat>
     </>
   );
 }

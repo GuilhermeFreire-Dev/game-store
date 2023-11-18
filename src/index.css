@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .btn-page-control {
+    @apply w-10 h-10 m-1 rounded-xl flex justify-center items-center hover:bg-stone-600;
+  }
+  
+  .btn-page-control-active {
+    @apply w-10 h-10 m-1 rounded-xl flex justify-center items-center bg-blue-600 hover:bg-blue-400;
+  }
+}
