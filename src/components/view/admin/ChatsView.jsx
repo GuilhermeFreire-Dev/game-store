@@ -8,6 +8,8 @@ import Content from "../../admin/layout/components/Content";
 import Chat from "../../store/chat/Chat";
 import axios from "axios";
 import Pagination from "../../admin/layout/components/Pagination";
+import FloatContent from "../../admin/layout/components/FloatContent";
+import FindGames from "../../admin/layout/chats/FindGames";
 
 function ChatsView() {
 
@@ -18,6 +20,7 @@ function ChatsView() {
   const [messages, setMessages] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [page, setPage] = useState(1);
+  const [visible, setVisible] = useState(false);
   let request = false;
 
   useEffect(() => {
@@ -93,7 +96,22 @@ function ChatsView() {
           </>
         }>
       </Content>
-      <Chat chatActive={chatActive} setChatActive={setChatActive} useMode={'seller'} chatId={chatId} chatMessages={messages} clientId={clientId}></Chat>
+      <Chat 
+        chatActive={chatActive} 
+        setChatActive={setChatActive} 
+        useMode={'seller'} 
+        chatId={chatId} 
+        chatMessages={messages} 
+        clientId={clientId}>
+      </Chat>
+      <FloatContent 
+        visible={visible} 
+        setVisible={setVisible} 
+        title={'Buscar jogos'} 
+        content={
+          <FindGames></FindGames>
+        }>
+      </FloatContent>
     </>
   );
 }
