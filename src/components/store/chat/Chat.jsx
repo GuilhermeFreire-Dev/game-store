@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ChatBody from "./ChatBody";
 import { socket } from "../../../socket";
 
-function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessages, clientId}) {
+function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessages, clientId, attach, externalMessage}) {
 
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -66,13 +66,18 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
     setMessages(chatMessages);
   }, [chatMessages]);
 
-  function sendMessage(message) {
+  useEffect(() => {
+    sendMessage(externalMessage, externalMessage.type);
+  }, [externalMessage]);
+
+  function sendMessage(message, type) {
     if (message) {
       let newMessage = {
         content: message,
         origin: useMode,
         chat_id: chatId,
         status: 'active',
+        type: type
       };
 
       if (useMode == 'client') {
@@ -93,7 +98,13 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
     <span className="fixed flex flex-col items-end bottom-0 right-0 mr-10 mb-10">
       {
         chatActive && (
-          <ChatBody setChatActive={setChatActive} sendMessage={sendMessage} messages={messages} user={useMode}></ChatBody>
+          <ChatBody 
+            setChatActive={setChatActive} 
+            sendMessage={sendMessage} 
+            messages={messages}
+            attach={attach}
+            user={useMode}>
+          </ChatBody>
         )
       }
     </span>

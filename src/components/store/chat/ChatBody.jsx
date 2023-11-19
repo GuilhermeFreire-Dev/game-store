@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { MdClose, MdPerson, MdSend } from "react-icons/md";
+import { MdClose, MdOutlineAttachFile, MdPerson, MdSend } from "react-icons/md";
+import Utils from "../../../scripts/Utils";
 
-function ChatBody({setChatActive, messages, sendMessage, user}) {
+function ChatBody({setChatActive, messages, sendMessage, user, attach}) {
 
   const inputMessageRef = useRef(null);
   const divMessagesRef = useRef(null);
+  const utils = new Utils();
 
   useEffect(() => {
     scrollToBottom();
@@ -17,7 +19,7 @@ function ChatBody({setChatActive, messages, sendMessage, user}) {
   }
 
   function send() {
-    sendMessage(inputMessageRef.current.value);
+    sendMessage(inputMessageRef.current.value, 'message');
     inputMessageRef.current.value = "";
   }
 
@@ -56,7 +58,22 @@ function ChatBody({setChatActive, messages, sendMessage, user}) {
                     }
                     <span className="shadow-xl w-4/5 p-2 text-xs bg-white rounded-lg">
                       <p className="font-semibold">{ message.origin === user ? 'Você' : (user === 'client' ? 'Vendedor(a)' : 'Cliente') }</p>
-                      <p>{ message.content }</p>
+                      <div>
+                        { 
+                          message.content.type === undefined && 
+                          <p>{ message.content }</p> 
+                        }
+                        {
+                          message.content.type === 'suggestion' &&
+                          <a href={`${process.env.REACT_APP_URL}/game/${message.content.id}`} target="_blank">
+                            <img className="w-16 h-24 mt-1 rounded-lg" src={message.content.image} alt={message.content.name} />
+                            <div className="mt-2">
+                              <p>{ message.content.name }</p>
+                              <p className="text-lg font-semibold">{ utils.getMonetaryFormat(message.content.price) }</p>
+                            </div>
+                          </a>
+                        }
+                      </div>
                       <p className="text-right font-semibold text-[10px]">{ getTime(message.time) }</p>
                     </span>
                     {
@@ -73,6 +90,9 @@ function ChatBody({setChatActive, messages, sendMessage, user}) {
           </div>
         </div>
         <div className="flex justify-between items-center pr-2 pl-2 bg-white h-10 rounded-xl shadow-lg">
+          <button onClick={() => attach(true)}>
+            <MdOutlineAttachFile></MdOutlineAttachFile>
+          </button>
           <input className="text-xs pl-2 focus:outline-none w-4/5" type="text" placeholder="Digite sua mensagem" ref={inputMessageRef} onKeyDown={autoSend}/>
           <button className="flex justify-center items-center right-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 hover:opacity-80">
             <MdSend className="text-white" onClick={send}></MdSend>

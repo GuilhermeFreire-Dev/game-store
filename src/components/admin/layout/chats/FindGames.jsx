@@ -4,7 +4,7 @@ import { MdSearch } from "react-icons/md";
 import Loader from '../../../store/layout/Loader';
 import Utils from "../../../../scripts/Utils";
 
-function FindGames() {
+function FindGames({setAttach}) {
 
   const [games, setGames] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -44,6 +44,19 @@ function FindGames() {
     }
   }
 
+  function sendAttach(game) {
+    if (game) {
+      const attach = {
+        type: 'suggestion',
+        id: game.id,
+        name: game.name,
+        price: game.current_price,
+        image: game.image_url
+      }
+      setAttach(attach);
+    }
+  }
+
   return (
     <div>
       <div className="flex items-center mt-3">
@@ -62,7 +75,7 @@ function FindGames() {
           !request && games && (
             games.map((game) => {
               return (
-                <div className="flex mt-3 mb-3 p-2 hover:bg-stone-700 rounded-lg cursor-pointer">
+                <div className="flex mt-3 mb-3 p-2 hover:bg-stone-700 rounded-lg cursor-pointer" onClick={() => sendAttach(game)}>
                   <img className="w-12 h-16 rounded-lg" src={game.image_url} alt={game.name} />
                   <div className="ml-3">
                     <p>{ game.name }</p>

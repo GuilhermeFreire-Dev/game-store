@@ -21,6 +21,7 @@ function ChatsView() {
   const [pagination, setPagination] = useState(null);
   const [page, setPage] = useState(1);
   const [visible, setVisible] = useState(false);
+  const [attach, setAttach] = useState(null);
   let request = false;
 
   useEffect(() => {
@@ -29,6 +30,12 @@ function ChatsView() {
       getChats();
     }
   }, [page]);
+
+  useEffect(() => {
+    if (visible) {
+      setVisible(false);
+    }
+  }, [attach]);
 
   function getChats() {
     axios.get(`${process.env.REACT_APP_API_URL}/chat/chats?size=8&page=${page}`)
@@ -100,16 +107,18 @@ function ChatsView() {
         chatActive={chatActive} 
         setChatActive={setChatActive} 
         useMode={'seller'} 
-        chatId={chatId} 
-        chatMessages={messages} 
+        chatId={chatId}
+        chatMessages={messages}
+        attach={setVisible}
+        externalMessage={attach}
         clientId={clientId}>
       </Chat>
       <FloatContent 
         visible={visible} 
         setVisible={setVisible} 
-        title={'Buscar jogos'} 
+        title={'Buscar jogos'}
         content={
-          <FindGames></FindGames>
+          <FindGames setAttach={setAttach}></FindGames>
         }>
       </FloatContent>
     </>
