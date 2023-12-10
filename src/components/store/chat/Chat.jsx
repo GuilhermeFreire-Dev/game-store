@@ -1,13 +1,25 @@
 import { useEffect, useState } from "react";
 import ChatBody from "./ChatBody";
 import { socket } from "../../../socket";
+import axios from "axios";
 
-function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessages, clientId, attach, externalMessage}) {
+function Chat({
+  chatActive, 
+  setChatActive, 
+  useMode, 
+  chatId, 
+  setCookie,
+  chatMessages, 
+  clientId, 
+  attach, 
+  externalMessage
+}) {
 
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [sellerConn, setSellerConn] = useState(null);
   let socketListenerEnabled = false;
+  let request = false;
 
   useEffect(() => {
     console.log(chatMessages);
@@ -25,7 +37,7 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
            */
           if (content.type == 'configuration') {
             console.log(content);
-            setUserId(content.id);
+            setCookie(content.id);
           }
           else {
             setSellerConn(content.seller_id);
@@ -35,6 +47,7 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
 
         socket.on('sellerOk', (connId) => {
           setSellerConn(connId);
+          console.log('seller on chat');
         });
       }
       else {
@@ -45,16 +58,17 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
            * no cookie da página
            */
           if (content.type == 'configuration') {
-            setUserId(content.data.id);
+            setCookie(content.data.id);
           }
           else {
             // setClientConn(content.client_id);
           }
           setMessages(content.data.messages);
         });
-
+      }
+      if (useMode == 'seller' && chatActive) {
         socket.emit('sellerOn', {
-          client_id: clientId, //não é isso aqui não
+          client_id: clientId,
           seller_id: socket.id
         });
       }
@@ -63,12 +77,39 @@ function Chat({chatActive, setChatActive, useMode, chatId, setUserId, chatMessag
   }, []);
 
   useEffect(() => {
-    setMessages(chatMessages);
+    if (chatMessages.length) {
+      setMessages(chatMessages);
+    }
   }, [chatMessages]);
 
   useEffect(() => {
-    sendMessage(externalMessage, externalMessage.type);
+    if (externalMessage) {
+      sendMessage(externalMessage, externalMessage.type);
+    }
   }, [externalMessage]);
+
+  useEffect(() => {
+    if (!chatMessages.length) {
+      console.log('getmessages');
+      getMessages();
+    }
+  }, []);
+
+  function getMessages() {
+    if (!request) {
+      request = true;
+      axios.get(`${process.env.REACT_APP_API_URL}/chat/${chatId}`)
+      .then((response) => {
+        setMessages(response.data.data.content.messages);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        request = false;
+      })
+    }
+  }
 
   function sendMessage(message, type) {
     if (message) {

@@ -34,10 +34,10 @@ function Navbar({context}) {
           }
         </Link>
       </div>
-      <div className="flex items-center pt-1 pr-3 pb-1 pl-3 rounded-3xl cursor-pointer hover:bg-stone-600 duration-300">
+      {/* <div className="flex items-center pt-1 pr-3 pb-1 pl-3 rounded-3xl cursor-pointer hover:bg-stone-600 duration-300">
         <IoPersonCircleSharp className="w-9 h-9"></IoPersonCircleSharp>
         <p className="pl-2">Login</p>
-      </div>
+      </div> */}
     </header>
   );
 }

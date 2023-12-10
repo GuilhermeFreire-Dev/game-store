@@ -90,9 +90,13 @@ function ChatBody({setChatActive, messages, sendMessage, user, attach}) {
           </div>
         </div>
         <div className="flex justify-between items-center pr-2 pl-2 bg-white h-10 rounded-xl shadow-lg">
-          <button onClick={() => attach(true)}>
-            <MdOutlineAttachFile></MdOutlineAttachFile>
-          </button>
+          {
+            user == 'seller' && (
+              <button onClick={() => attach(true)}>
+                <MdOutlineAttachFile></MdOutlineAttachFile>
+              </button>
+            )
+          }
           <input className="text-xs pl-2 focus:outline-none w-4/5" type="text" placeholder="Digite sua mensagem" ref={inputMessageRef} onKeyDown={autoSend}/>
           <button className="flex justify-center items-center right-0 w-8 h-8 rounded-full bg-gradient-to-r from-blue-600 to-sky-500 hover:opacity-80">
             <MdSend className="text-white" onClick={send}></MdSend>

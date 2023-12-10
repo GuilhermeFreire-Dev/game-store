@@ -6,18 +6,18 @@ import { useCookies } from "react-cookie";
 function StoreChat() {
 
   const [chatActive, setChatActive] = useState(false);
-  const [cookies, setCookies] = useCookies(["user"]);
+  const [cookies, setCookies] = useCookies(["chat"]);
 
-  function setUserId(id) {
-    if (!cookies.user) {
-      setCookies("user", id);
+  function setCookie(id) {
+    if (!cookies.chat) {
+      setCookies("chat", id);
     }
     console.log("cookie", cookies);
   }
 
   return (
     <>
-      <Chat chatActive={chatActive} setChatActive={setChatActive} useMode={'client'} chatId={cookies.user} setUserId={setUserId} chatMessages={[]}></Chat>
+      <Chat chatActive={chatActive} setChatActive={setChatActive} useMode={'client'} chatId={cookies.chat} setCookie={setCookie} chatMessages={[]}></Chat>
       {
         !chatActive && (
           <ChatButton setChatActive={setChatActive}></ChatButton>
